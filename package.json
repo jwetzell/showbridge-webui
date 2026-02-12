@@ -1,0 +1,58 @@
+{
+  "name": "@showbridge/webui",
+  "version": "0.11.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "format:write": "prettier ./ --write"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "packageManager": "npm@11.6.2",
+  "dependencies": {
+    "@angular/cdk": "~21.1.4",
+    "@angular/common": "21.1.0",
+    "@angular/compiler": "21.1.0",
+    "@angular/core": "21.1.0",
+    "@angular/forms": "21.1.0",
+    "@angular/material": "~21.1.4",
+    "@angular/platform-browser": "21.1.0",
+    "@angular/router": "21.1.0",
+    "ajv": "8.17.1",
+    "lodash-es": "4.17.23",
+    "ngx-timeago": "4.0.0",
+    "rxjs": "7.8.0",
+    "tslib": "2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "21.1.4",
+    "@angular/cli": "21.1.4",
+    "@angular/compiler-cli": "21.1.0",
+    "@angular/material": "^21.1.4",
+    "@tailwindcss/postcss": "4.1.12",
+    "@types/lodash-es": "4.17.12",
+    "jsdom": "27.1.0",
+    "postcss": "8.5.3",
+    "prettier": "3.8.1",
+    "tailwindcss": "4.1.12",
+    "typescript": "5.9.2",
+    "vitest": "4.0.8"
+  }
+}

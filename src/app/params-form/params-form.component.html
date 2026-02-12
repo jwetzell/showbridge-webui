@@ -1,0 +1,127 @@
+@if (paramsSchema && paramsFormInfo) {
+  @if (paramsOptions.length > 1) {
+    <mat-tab-group
+      [selectedIndex]="paramsOptionsSelectedIndex"
+      (selectedTabChange)="paramsOptionsTabSelected($event)"
+    >
+      @for (paramsOption of paramsOptions; track paramsOption) {
+        <mat-tab [label]="paramsOption.display"></mat-tab>
+      }
+    </mat-tab-group>
+  }
+  <form [formGroup]="paramsFormInfo.formGroup">
+    <div class="flex flex-col">
+      @for (key of paramKeys(); track key) {
+        <div class="flex items-center m-1">
+          @if (showParam(key) && getParamInfo(key); as paramInfo) {
+            <label class="mr-2 text-gray-300"> {{ paramInfo.display }}: </label>
+            @switch (paramInfo.type) {
+              @case ('boolean') {
+                <input type="checkbox" [formControlName]="paramInfo.key" />
+              }
+              @case ('number') {
+                @if (!paramInfo.options) {
+                  <input
+                    type="number"
+                    [placeholder]="paramInfo.placeholder"
+                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    [formControlName]="paramInfo.key"
+                  />
+                } @else {
+                  <select
+                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    [formControlName]="paramInfo.key"
+                  >
+                    @for (option of paramInfo.options; track option) {
+                      <option [value]="option">
+                        {{ option }}
+                      </option>
+                    }
+                  </select>
+                }
+                <mat-icon class="!text-gray-200">123</mat-icon>
+              }
+              @case ('integer') {
+                @if (!paramInfo.options) {
+                  <input
+                    type="number"
+                    [placeholder]="paramInfo.placeholder"
+                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    [formControlName]="paramInfo.key"
+                  />
+                } @else {
+                  <select
+                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    [formControlName]="paramInfo.key"
+                  >
+                    @for (option of paramInfo.options; track option) {
+                      <option [value]="option">
+                        {{ option }}
+                      </option>
+                    }
+                  </select>
+                }
+                <mat-icon class="!text-gray-200" matTooltip="Number">123</mat-icon>
+              }
+              @case ('string') {
+                @if (!paramInfo.options) {
+                  <input
+                    type="text"
+                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    [placeholder]="paramInfo.placeholder"
+                    [formControlName]="paramInfo.key"
+                  />
+                } @else {
+                  <select
+                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    [formControlName]="paramInfo.key"
+                  >
+                    @for (option of paramInfo.options; track option) {
+                      <option [value]="option">
+                        {{ option }}
+                      </option>
+                    }
+                  </select>
+                }
+                <mat-icon class="!text-gray-200" matTooltip="String">abc</mat-icon>
+              }
+              @case ('array') {
+                <app-array-form
+                  [paramFormControl]="paramsFormInfo.formGroup.get(paramInfo.key)"
+                  [paramInfo]="paramInfo"
+                ></app-array-form>
+                <mat-icon class="!text-gray-200" matTooltip="Item list">data_array</mat-icon>
+              }
+              @case ('object') {
+                <!-- TODO(jwetzell): figure out how to display objects-->
+                <input
+                  class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                  [formControlName]="paramInfo.key"
+                  [placeholder]="paramInfo.placeholder"
+                />
+                <mat-icon class="!text-gray-200" matTooltip="JSON">data_object</mat-icon>
+              }
+              @default {
+                <input
+                  class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                  [formControlName]="paramInfo.key"
+                />
+              }
+            }
+            @if (!paramsFormInfo.formGroup.controls[key].valid) {
+              <!-- TODO(jwetzell): better error displaying -->
+              <div class="ml-2 text-red-500">
+                {{ paramsFormInfo.formGroup.controls[key].errors | json }}
+              </div>
+            }
+            <div class="flex items-center justify-center">
+              <mat-icon [matTooltip]="paramInfo.hint" class="ml-2 !text-gray-200">
+                help_outline
+              </mat-icon>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </form>
+}

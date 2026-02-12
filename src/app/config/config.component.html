@@ -1,0 +1,75 @@
+@if (config()) {
+  <div class="flex h-full flex-row m-2 gap-1.5">
+    <div class="flex flex-col">
+      <div class="text-2xl text-white text-center">Modules</div>
+      <div class="flex-grow h-full overflow-scroll gap-1.5 border-2 border-gray-500">
+        @for (module of modules(); track module; let i = $index) {
+          <div>
+            <app-module
+              [path]="`modules/${i}`"
+              (moduleChange)="moduleUpdated(i, $event)"
+              [module]="module"
+              (delete)="deleteModule(i)"
+            ></app-module>
+          </div>
+        }
+      </div>
+      <div class="flex mb-2">
+        @if (schemaService.moduleTypes.length > 0) {
+          <div
+            matTooltip="Add Module"
+            class="flex items-center justify-center w-full h-10 rounded-lg bg-gray-200 hover:cursor-pointer hover:bg-gray-300 m-2"
+            [matMenuTriggerFor]="addModuleMenu"
+          >
+            <mat-icon>add</mat-icon>
+          </div>
+          <mat-menu #addModuleMenu="matMenu">
+            @for (moduleType of schemaService.moduleTypes; track moduleType) {
+              <button mat-menu-item (click)="addModule(moduleType.type)">
+                <span>{{ moduleType.name }}</span>
+              </button>
+            }
+          </mat-menu>
+        }
+      </div>
+    </div>
+    <div class="flex flex-col flex-grow">
+      <div class="text-2xl text-white text-center w-full">Routes</div>
+      <div
+        class="flex-grow h-full overflow-scroll flex flex-row flex-wrap gap-1.5 content-baseline border-2 border-gray-500"
+      >
+        @for (route of routes(); track route; let i = $index) {
+          <div>
+            <app-route
+              [path]="`routes/${i}`"
+              (routeChange)="routeUpdated(i, $event)"
+              [route]="route"
+              (delete)="deleteRoute(i)"
+            ></app-route>
+          </div>
+        }
+      </div>
+      <div class="flex mb-2">
+        <div
+          matTooltip="Add Route"
+          class="flex items-center justify-center w-full h-10 rounded-lg m-2 bg-gray-200 hover:cursor-pointer hover:bg-gray-300"
+          (click)="addRoute()"
+        >
+          <mat-icon>add</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<ng-template #addModuleMenu>
+  @if (schemaService.moduleTypes.length > 0) {
+    <div cdkMenu class="context-menu">
+      @for (moduleType of schemaService.moduleTypes; track moduleType) {
+        <button cdkMenuItem class="context-menu-item" (click)="addModule(moduleType.type)">
+          <span>{{ moduleType.name }}</span>
+        </button>
+      }
+    </div>
+  }
+</ng-template>
