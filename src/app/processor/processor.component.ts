@@ -37,11 +37,15 @@ export class ProcessorComponent {
   paramsUpdated(params: any) {
     this.processor.update((processor) => {
       if (processor !== undefined) {
-        processor.params = params;
+        if (params != undefined){
+          return {
+            ...processor,
+            params: params,
+          };
+        }
         return {
           ...processor,
-          params: processor.params,
-        };
+        }
       }
       return undefined;
     });
