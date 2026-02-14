@@ -51,7 +51,56 @@
             </div>
           </div>
         </form>
+        <div>
+          <div class="text-md text-gray-300 text-center">Processors</div>
+          <div class="border-2 border-gray-500 m-2 rounded-sm">
+            @if (processors() === undefined || processors()?.length === 0) {
+              <div class="w-full h-6"></div>
+            } @else {
+              @for (processor of processors(); track processor; let i = $index) {
+                <div cdkDrag>
+                  <app-processor
+                    [path]="path() + '/processors/' + i"
+                    (processorChange)="processorUpdated(i, $event)"
+                    [processor]="processor"
+                    (delete)="deleteProcessor(i)"
+                  ></app-processor>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+      <div class="flex mb-2">
+        @if (schemaService.moduleTypes.length > 0) {
+          <div
+            matTooltip="Add Module"
+            class="flex items-center justify-center w-full h-10 rounded-lg bg-gray-200 hover:cursor-pointer hover:bg-gray-300 m-2"
+            [matMenuTriggerFor]="addProcessorMenu"
+          >
+            <mat-icon>add</mat-icon>
+          </div>
+          <mat-menu #addProcessorMenu="matMenu">
+            @for (processorType of schemaService.processorTypes; track processorType) {
+              <button mat-menu-item (click)="addProcessor(processorType.type)">
+                <span>{{ processorType.type }}</span>
+              </button>
+            }
+          </mat-menu>
+        }
       </div>
     </div>
   </div>
+
+  <ng-template #addProcessorMenu>
+    @if (schemaService.processorTypes.length > 0) {
+      <div cdkMenu class="context-menu">
+        @for (processorType of schemaService.processorTypes; track processorType) {
+          <button cdkMenuItem class="context-menu-item" (click)="addProcessor(processorType.type)">
+            <span>{{ processorType.name }}</span>
+          </button>
+        }
+      </div>
+    }
+  </ng-template>
 }
