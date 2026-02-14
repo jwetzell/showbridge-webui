@@ -64,7 +64,7 @@ export class ModuleComponent {
 
   paramsUpdated(params: any) {
     this.module.update((module) => {
-      if (module !== undefined) {
+      if (module !== undefined && module.params !== undefined) {
         module.params = params;
         return {
           ...module,

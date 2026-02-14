@@ -73,7 +73,9 @@ export class ConfigComponent {
       if (config && config.modules) {
         config.modules[index].id = module.id;
         config.modules[index].type = module.type;
-        config.modules[index].params = module.params;
+        if (module.params !== undefined) {
+          config.modules[index].params = module.params;
+        }
         return {
           ...config,
           modules: config.modules,
