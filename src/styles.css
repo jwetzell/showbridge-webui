@@ -12,6 +12,8 @@
   }
 }
 
+@custom-variant hover (&:hover);
+
 html,
 body {
   height: 100%;
