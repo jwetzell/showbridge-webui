@@ -1,16 +1,16 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { Component, inject, Input, OnInit, output } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 import { cloneDeep, has } from 'lodash-es';
 import { Subscription } from 'rxjs';
 import { ParamInfo, ParamsFormInfo } from '../../models/form.model';
 import { SchemaService } from '../../services/schema.service';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { JsonPipe } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArrayFormComponent } from '../array-form/array-form.component';
 
 @Component({
@@ -32,7 +32,7 @@ import { ArrayFormComponent } from '../array-form/array-form.component';
 export class ParamsFormComponent implements OnInit {
   @Input() paramsSchema?: SomeJSONSchema;
   @Input() data?: any;
-  @Output() updated: EventEmitter<any> = new EventEmitter<any>();
+  updated = output<any>();
 
   patchable: boolean = false;
   paramsFormInfo?: ParamsFormInfo;
