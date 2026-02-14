@@ -28,6 +28,14 @@ export class ConfigComponent {
   modules = computed(() => this.config()?.modules ?? []);
   routes = computed(() => this.config()?.routes ?? []);
 
+  moduleIds = computed(() => {
+    const config = this.config();
+    if (config !== undefined && config.modules !== undefined) {
+      return config.modules.map((module) => module.id!) ?? [];
+    }
+    return [];
+  });
+
   public schemaService = inject(SchemaService);
 
   private snackBar = inject(MatSnackBar);

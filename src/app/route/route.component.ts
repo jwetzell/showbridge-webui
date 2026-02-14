@@ -16,6 +16,7 @@ import { JsonPipe } from '@angular/common';
 export class RouteComponent {
   path = input<string>('');
   route = model<RouteConfiguration>();
+  moduleIds = input<string[]>([]);
   delete = output<void>();
 
   formGroup: FormGroup = new FormGroup({
