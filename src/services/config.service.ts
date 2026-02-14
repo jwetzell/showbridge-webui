@@ -24,67 +24,38 @@ export class ConfigService {
   }
 
   loadConfig() {
-    // TODO(jwetzell): load from local storage
+    const configString = localStorage.getItem('config');
+    if (configString) {
+      try {
+        const config = JSON.parse(configString);
+        const valid = this.schemaService.validate(config);
+        if (valid) {
+          console.log('Loaded config from local storage', config);
+          this.updateCurrentlyShownConfig(config);
+        } else {
+          console.error('Config in local storage is invalid', config);
+          this.setEmptyConfig();
+        }
+      } catch (e) {
+        console.error('Failed to parse config from local storage', e);
+        this.setEmptyConfig();
+      }
+    } else {
+      this.setEmptyConfig();
+    }
+  }
+
+  setEmptyConfig() {
+    console.log('Setting empty config');
     this.updateCurrentlyShownConfig({
-      modules: [
-        {
-          id: 'http',
-          type: 'http.server',
-          params: {
-            port: 8080,
-          },
-        },
-        {
-          id: 'http',
-          type: 'http.server',
-          params: {
-            port: 8080,
-          },
-        },
-        {
-          id: 'http',
-          type: 'http.server',
-          params: {
-            port: 8080,
-          },
-        },
-        {
-          id: 'http',
-          type: 'http.server',
-          params: {
-            port: 8080,
-          },
-        },
-        {
-          id: 'http',
-          type: 'http.server',
-          params: {
-            port: 8080,
-          },
-        },
-        {
-          id: 'http',
-          type: 'http.server',
-          params: {
-            port: 8080,
-          },
-        },
-        {
-          id: 'http',
-          type: 'http.server',
-          params: {
-            port: 8080,
-          },
-        },
-      ],
+      modules: [],
       routes: [],
     });
   }
 
   saveConfig(config: Config) {
-    // TODO(jwetzell): save to local storage
-    console.log('saveConfig');
-    console.log(config);
+    localStorage.setItem('config', JSON.stringify(config));
+    console.log('Config saved to local storage', config);
   }
 
   updateCurrentlyShownConfig(config: Config) {
