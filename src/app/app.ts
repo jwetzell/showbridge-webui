@@ -1,18 +1,17 @@
-import { Component, effect, inject, signal } from '@angular/core';
-import { SchemaService } from '../services/schema.service';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
-import { ConfigService } from '../services/config.service';
-import { MatIconModule } from '@angular/material/icon';
-import { TimeagoModule } from 'ngx-timeago';
-import { Config } from '../models/config.models';
-import { MatMenuModule } from '@angular/material/menu';
-import { SettingsService } from '../services/settings.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfigComponent } from './config/config.component';
+import { Component, effect, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { filter } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { TimeagoModule } from 'ngx-timeago';
+import { Config } from '../models/config.models';
+import { ConfigService } from '../services/config.service';
+import { SchemaService } from '../services/schema.service';
+import { SettingsService } from '../services/settings.service';
+import { ConfigComponent } from './config/config.component';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +43,13 @@ export class App {
   }
 
   applyConfig() {
-    console.log('apply config');
+    const config = this.configService.currentlyShownConfig();
+    if (config !== undefined) {
+      this.configService.saveConfig(config);
+      this.snackBar.open('Config Saved', 'Dismiss', {
+        duration: 3000,
+      });
+    }
   }
 
   loadConfig(config: Config) {
