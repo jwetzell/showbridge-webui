@@ -1,17 +1,16 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, inject, Input, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { ParamInfo } from '../../models/form.model';
 import { ListsService } from '../../services/lists.service';
 import { SchemaService } from '../../services/schema.service';
-import { MatIconModule } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
-import { ParamsFormComponent } from '../params-form/params-form.component';
 
 @Component({
   selector: 'app-array-form',
   templateUrl: './array-form.component.html',
   styleUrl: './array-form.component.css',
-  imports: [MatIconModule, FormsModule, ParamsFormComponent, CdkDrag, CdkDropList],
+  imports: [MatIconModule, FormsModule, CdkDrag, CdkDropList],
   standalone: true,
 })
 export class ArrayFormComponent implements OnInit {

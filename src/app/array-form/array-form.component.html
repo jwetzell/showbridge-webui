@@ -1,19 +1,19 @@
 @if (paramFormControl && paramInfo?.schema) {
   @if (arrayValue) {
     <div cdkDropList (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="arrayValue">
-      <!-- <div *ngIf="arrayValue.length === 0" class="w-full h-6"></div> -->
       @for (item of arrayValue; track trackByIndex(i, item); let i = $index) {
         <div cdkDrag class="flex my-2 mr-2 items-center">
           <label for="item-{{ i }}" class="text-gray-300 mr-1 hover:cursor-move" cdkDragHandle
             >{{ i }}:</label
           >
-          @if (paramInfo?.schema.items.type === 'object') {
+          <!-- @if (paramInfo?.schema.items.type === 'object') {
             <app-params-form
               [paramsSchema]="paramInfo?.schema.items"
               [data]="item"
               (updated)="updateItem(i, $event)"
             ></app-params-form>
-          } @else {
+          } -->
+          @if (paramInfo?.schema.items.type !== 'object') {
             <!-- TODO(jwetzell): add input validation using info from schema -->
             <input
               id="item-{{ i }}"
