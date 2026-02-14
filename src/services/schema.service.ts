@@ -394,7 +394,7 @@ export class SchemaService {
     return [];
   }
 
-  cleanParams(paramsSchema: SomeJSONSchema, params: any, keysToTemplate: Set<string>): any {
+  cleanParams(paramsSchema: SomeJSONSchema, params: any): any {
     Object.keys(params).forEach((paramKey) => {
       if (paramsSchema.properties[paramKey]) {
         const paramSchema = paramsSchema.properties[paramKey];

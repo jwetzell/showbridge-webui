@@ -46,11 +46,6 @@ export class ParamsFormComponent implements OnInit {
   }[] = [];
   paramsOptionsSelectedIndex: number = 0;
 
-  keysToTemplate: Set<string> = new Set<string>();
-
-  patchType: 'midi' | 'network' | undefined;
-  patchIndex: number = -1;
-
   private schemaService = inject(SchemaService);
 
   constructor() {}
@@ -110,38 +105,8 @@ export class ParamsFormComponent implements OnInit {
             default:
               break;
           }
-          if (paramKey === '_port' || paramKey === '_host') {
-            //NOTE(jwetzell): determine what patch to load for dropdown
-            const valueIsPatch = dataToPatch[paramKey].match(
-              /^\${vars.patches.(midi|network)\[(\d+)\].(port|host)}$/,
-            );
-            if (valueIsPatch) {
-              this.patchType = valueIsPatch[1];
-              try {
-                this.patchIndex = parseInt(valueIsPatch[2]);
-              } catch (error) {
-                console.error('params-form: error decoding patch info');
-              }
-            }
-          }
         }
       });
-
-      //NOTE(jwetzell): initialize keysToTemplate
-      Object.entries(dataToPatch).forEach(([key, value]) => {
-        if (key.startsWith('_') && value !== undefined) {
-          this.keysToTemplate.add(key.substring(1));
-        }
-      });
-
-      if (has(this.paramsFormInfo.paramsInfo, 'port')) {
-        this.patchable = true;
-        if (has(this.paramsFormInfo.paramsInfo, 'host')) {
-          this.patchType = 'network';
-        } else {
-          this.patchType = 'midi';
-        }
-      }
 
       this.paramsFormInfo.formGroup.patchValue(dataToPatch);
     }
@@ -197,7 +162,6 @@ export class ParamsFormComponent implements OnInit {
       const params = this.schemaService.cleanParams(
         this.paramsSchema,
         this.paramsFormInfo?.formGroup.value,
-        this.keysToTemplate,
       );
       this.updated.emit(params);
     } else {
@@ -207,17 +171,7 @@ export class ParamsFormComponent implements OnInit {
 
   paramKeys() {
     if (this.paramsFormInfo) {
-      return Object.keys(this.paramsFormInfo?.formGroup.controls).filter((key) => {
-        if (this.keysToTemplate.has(key)) {
-          return false;
-        }
-
-        // NOTE(jwezell): exclude template keys that aren't supposed to be
-        if (key.startsWith('_') && !this.keysToTemplate.has(key.substring(1))) {
-          return false;
-        }
-        return true;
-      });
+      return Object.keys(this.paramsFormInfo?.formGroup.controls);
     }
     return [];
   }
@@ -241,7 +195,6 @@ export class ParamsFormComponent implements OnInit {
       const params = this.schemaService.cleanParams(
         this.paramsSchema,
         this.paramsFormInfo?.formGroup.value,
-        this.keysToTemplate,
       );
       return params[key];
     }
