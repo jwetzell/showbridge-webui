@@ -4,30 +4,16 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ListsService {
-  public actionListIds: string[] = [];
-  public transformListIds: string[] = [];
-  public moduleListsId: string[] = [];
+  public processorListIds: string[] = [];
 
-  registerActionList(path: string | undefined) {
+  registerProcessorList(path: string | undefined) {
     if (path === undefined) {
       return '';
     }
 
     const id = this.pathToId(path);
-    if (!this.actionListIds.includes(id)) {
-      this.actionListIds.push(id);
-    }
-    return id;
-  }
-
-  registerTransformList(path: string | undefined) {
-    if (path === undefined) {
-      return '';
-    }
-
-    const id = this.pathToId(path);
-    if (!this.transformListIds.includes(id)) {
-      this.transformListIds.push(id);
+    if (!this.processorListIds.includes(id)) {
+      this.processorListIds.push(id);
     }
     return id;
   }
