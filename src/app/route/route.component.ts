@@ -98,6 +98,10 @@ export class RouteComponent {
     }
     this.route.update((route) => {
       if (route && route.processors) {
+        route.processors[index].type = processor.type;
+        if (processor.params !== undefined) {
+          route.processors[index].params = processor.params;
+        }
         return {
           ...route,
           processors: route.processors,
