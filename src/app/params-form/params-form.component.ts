@@ -186,17 +186,7 @@ export class ParamsFormComponent implements OnInit {
   getParamInfo(key: string): ParamInfo | undefined {
     return this.paramsFormInfo?.paramsInfo[key];
   }
-
-  showParam(key: string): boolean {
-    const paramInfo = this.paramsFormInfo?.paramsInfo[key];
-    if (paramInfo) {
-      if (paramInfo?.schema?.$ref === '#/definitions/ActionList') {
-        return false;
-      }
-    }
-    return true;
-  }
-
+  
   getParamValue(key: string) {
     if (this.paramsSchema) {
       const params = this.schemaService.cleanParams(

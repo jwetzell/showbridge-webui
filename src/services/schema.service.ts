@@ -489,12 +489,6 @@ export class SchemaService {
           } else {
             console.error(`schema-service: unhandled array schema type: ${schema.items?.type}`);
           }
-        } else if (schema['$ref'] === '#/definitions/ActionList') {
-          try {
-            return JSON.parse(`[${paramValue}]`);
-          } catch (error) {
-            console.error('sub action list is not JSON');
-          }
         } else {
           // NOTE(jwetzell): default to comma-separated strings
           return paramValue.split(',').map((part: string) => part.trim());
