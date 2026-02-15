@@ -12,6 +12,7 @@ import { ConfigService } from '../services/config.service';
 import { SchemaService } from '../services/schema.service';
 import { SettingsService } from '../services/settings.service';
 import { ConfigComponent } from './config/config.component';
+import * as yaml from 'js-yaml';
 
 @Component({
   selector: 'app-root',
@@ -59,7 +60,7 @@ export class App {
   downloadConfig() {
     const config = this.configService.currentlyShownConfig();
     if (config) {
-      this.downloadJSON(config, 'config.json');
+      this.downloadYAML(config, 'config.yaml');
     } else {
       this.snackBar.open('No config to download.', 'Dismiss', {
         duration: 3000,
@@ -71,7 +72,23 @@ export class App {
     const content = JSON.stringify(data, null, 2);
     const dataUri = URL.createObjectURL(
       new Blob([content], {
-        type: 'text/json;charset=utf-8',
+        type: 'application/json;charset=utf-8',
+      }),
+    );
+    const dummyLink = document.createElement('a');
+    dummyLink.href = dataUri;
+    dummyLink.download = filename;
+
+    document.body.appendChild(dummyLink);
+    dummyLink.click();
+    document.body.removeChild(dummyLink);
+  }
+
+  downloadYAML(data: object, filename: string) {
+    const content = yaml.dump(data);
+    const dataUri = URL.createObjectURL(
+      new Blob([content], {
+        type: 'application/yaml;charset=utf-8',
       }),
     );
     const dummyLink = document.createElement('a');
