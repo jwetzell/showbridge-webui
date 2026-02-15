@@ -34,7 +34,6 @@ export class ParamsFormComponent implements OnInit {
   @Input() data?: any;
   updated = output<any>();
 
-  patchable: boolean = false;
   paramsFormInfo?: ParamsFormInfo;
 
   formGroupSubscription?: Subscription;
