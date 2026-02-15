@@ -329,6 +329,7 @@ export class SchemaService {
                 }
               }
 
+
               paramsFormInfo.paramsInfo[paramKey] = {
                 key: paramKey,
                 display: paramSchema.title ? paramSchema.title : paramKey,
@@ -337,6 +338,7 @@ export class SchemaService {
                 isConst: !!paramSchema.const,
                 schema: paramSchema,
                 placeholder: '',
+                default: paramSchema.default ? paramSchema.default : undefined
               };
 
               if (paramSchema.examples && paramSchema.examples.length > 0) {

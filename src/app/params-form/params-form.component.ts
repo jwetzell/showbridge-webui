@@ -54,9 +54,9 @@ export class ParamsFormComponent implements OnInit {
       if (this.paramsSchema.properties) {
         this.paramsFormInfo = this.schemaService.getFormInfoFromParamsSchema(this.paramsSchema);
       } else if (this.paramsSchema.oneOf) {
-        this.paramsOptions = this.paramsSchema.oneOf.map((oneOf: any) => {
+        this.paramsOptions = this.paramsSchema.oneOf.map((oneOf: any, index: number) => {
           const paramsOption = {
-            display: oneOf.title,
+            display: oneOf.title ? oneOf.title : `Option ${index + 1}`,
             schema: oneOf,
             paramsFormInfo: this.schemaService.getFormInfoFromParamsSchema(oneOf),
           };
@@ -126,11 +126,19 @@ export class ParamsFormComponent implements OnInit {
     this.paramsSchema = paramsOption.schema;
     this.paramsFormInfo = paramsOption.paramsFormInfo;
 
-    // NOTE(jwetzell): prune params that MUST change from the data when switch paramOptions
+    // NOTE(jwetzell): modify params that should change from the data when switch paramOptions
     Object.entries(this.paramsFormInfo.paramsInfo).forEach(([paramKey, paramInfo]) => {
-      if (paramInfo.isConst && this.data) {
-        if (this.data[paramKey]) {
-          delete this.data[paramKey];
+      if (this.data !== undefined) {
+        if (paramInfo.isConst) {
+          if (this.data[paramKey]) {
+            delete this.data[paramKey];
+          }
+        }
+  
+        if (paramInfo.default) {
+          if (this.data[paramKey] !== undefined && this.data[paramKey] !== paramInfo.default) {
+            this.data[paramKey] = paramInfo.default;
+          }
         }
       }
     });

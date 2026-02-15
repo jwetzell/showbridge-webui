@@ -24,4 +24,5 @@ export type ParamInfo = {
   options?: string[];
   isConst: boolean;
   schema: any;
+  default?: any;
 };
