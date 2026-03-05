@@ -38,7 +38,6 @@ export class RouteComponent {
 
   formGroup: FormGroup = new FormGroup({
     input: new FormControl('', [Validators.required]),
-    output: new FormControl('', [Validators.required]),
   });
 
   public schemaService = inject(SchemaService);
@@ -47,18 +46,15 @@ export class RouteComponent {
   ngOnInit(): void {
     this.formGroup.patchValue({
       input: this.route()?.input,
-      output: this.route()?.output,
     });
 
     this.formGroup.valueChanges.subscribe((value) => {
       this.route.update((route) => {
         if (route) {
           route.input = value.input;
-          route.output = value.output;
           return {
             ...route,
             input: route.input,
-            output: route.output,
           };
         }
         return undefined;
