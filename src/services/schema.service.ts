@@ -225,12 +225,12 @@ export class SchemaService {
             .filter((definition) => definition.properties?.type?.const !== undefined)
             .map((definition) => {
               return {
-                name: definition['title'],
+                name: definition['title'] || definition.properties?.type?.const,
                 type: definition.properties?.type?.const,
                 schema: definition,
               };
             }),
-          ['name'],
+          ['type'],
         );
       }
     }
@@ -247,12 +247,12 @@ export class SchemaService {
             .filter((definition) => definition.properties?.type?.const !== undefined)
             .map((definition) => {
               return {
-                name: definition['title'],
+                name: definition['title'] || definition.properties?.type?.const,
                 type: definition.properties?.type?.const,
                 schema: definition,
               };
             }),
-          ['name'],
+          ['type'],
         );
       }
     }

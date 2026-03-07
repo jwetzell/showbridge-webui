@@ -3,7 +3,7 @@
     <div cdkDropList (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="arrayValue">
       @for (item of arrayValue; track trackByIndex(i, item); let i = $index) {
         <div cdkDrag class="flex my-2 mr-2 items-center">
-          <label for="item-{{ i }}" class="text-gray-300 mr-1 hover:cursor-move" cdkDragHandle
+          <label for="item-{{ i }}" class="text-white mr-1 hover:cursor-move" cdkDragHandle
             >{{ i }}:</label
           >
           <!-- @if (paramInfo?.schema.items.type === 'object') {
@@ -17,7 +17,7 @@
             <!-- TODO(jwetzell): add input validation using info from schema -->
             <input
               id="item-{{ i }}"
-              class="pl-1 border-2 border-gray-200 border-solid rounded-sm text-gray-200"
+              class="pl-1 border-2 border-gray-200 border-solid rounded-sm text-white"
               [(ngModel)]="arrayValue[i]"
               [placeholder]="paramInfo?.placeholder"
               [ngModelOptions]="{ standalone: true }"

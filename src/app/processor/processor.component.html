@@ -2,12 +2,12 @@
   <div class="flex items-start m-2 w-fit">
     <div
       class="flex flex-col bg-gray-800 border-2 {{
-        isInError() ? 'border-red-500' : 'border-gray-200'
+        isInError() ? 'border-red-500' : 'border-gray-600'
       }} border-solid w-fit h-full"
     >
-      <div class="flex items-center justify-center bg-gray-600">
-        <div class="flex-grow ml-1 mr-3 text-gray-200">
-          {{ processor()?.type }}
+      <div class="flex items-center justify-center border-gray-600 border-b-2">
+        <div class="flex-grow ml-1 mr-3 text-white">
+          {{ schema()?.title || processor()?.type }}
         </div>
         <div class="flex items-center justify-center" (click)="delete.emit()">
           <mat-icon class="!text-red-500">close</mat-icon>

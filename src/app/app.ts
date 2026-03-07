@@ -13,28 +13,27 @@ import { SchemaService } from '../services/schema.service';
 import { SettingsService } from '../services/settings.service';
 import { ConfigComponent } from './config/config.component';
 import * as yaml from 'js-yaml';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [
-    ConfigComponent,
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatIconModule,
     TimeagoModule,
     MatMenuModule,
     MatButtonModule,
-  ],
+    RouterOutlet
+],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   public schemaService = inject(SchemaService);
   public configService = inject(ConfigService);
-  private settingsService = inject(SettingsService);
 
   private snackBar = inject(MatSnackBar);
-  private dialog = inject(MatDialog);
   constructor() {
     effect(() => {
       if (this.schemaService.schemasLoaded()) {

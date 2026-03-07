@@ -1,13 +1,12 @@
 @if (module() && schema()) {
-  <div class="flex items-start m-2 w-fit">
     <div
       class="flex flex-col bg-gray-800 border-2 {{
-        isInError() ? 'border-red-500' : 'border-gray-200'
-      }} border-solid w-fit h-full"
+        isInError() ? 'border-red-500' : 'border-gray-600'
+      }} border-solid w-full h-full"
     >
-      <div class="flex items-center justify-center bg-gray-600">
-        <div class="flex-grow ml-1 mr-3 text-gray-200">
-          {{ schema().title }}
+      <div class="flex items-center justify-center border-gray-600 border-b-2">
+        <div class="flex-grow ml-1 mr-3 text-white">
+          {{ schema().title || module()?.type }}
         </div>
         <div class="flex items-center justify-center" (click)="delete.emit()">
           <mat-icon class="!text-red-500">close</mat-icon>
@@ -17,13 +16,18 @@
         <form [formGroup]="formGroup" class="h-full">
           <div class="m-2">
             <div class="flex items-center m-1">
-              <label class="mr-2 text-gray-300"> id: </label>
+              <label class="mr-2 text-white"> id: </label>
               <input
                 type="text"
-                class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                 [placeholder]="'module-1'"
                 [formControlName]="'id'"
               />
+              <mat-icon class="!text-white" matTooltip="String">abc</mat-icon>
+              @if (!formGroup.controls['id'].valid) {
+                <!-- TODO(jwetzell): better error displaying -->
+                <div class="ml-2 text-red-500">{{ formGroup.controls['id'].errors | json }}</div>
+              }
             </div>
             <app-params-form
               [paramsSchema]="schema()?.properties?.params"
@@ -34,5 +38,4 @@
         </form>
       </div>
     </div>
-  </div>
 }

@@ -1,11 +1,13 @@
 import { Component, computed, inject, input, model, output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { ModuleConfiguration } from '../../models/config.models';
 import { SchemaService } from '../../services/schema.service';
 import { ParamsFormComponent } from '../params-form/params-form.component';
+import { JsonPipe } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-module',
@@ -15,6 +17,8 @@ import { ParamsFormComponent } from '../params-form/params-form.component';
     ParamsFormComponent,
     ReactiveFormsModule,
     MatMenuModule,
+    MatTooltipModule,
+    JsonPipe,
   ],
   templateUrl: './module.component.html',
   styleUrl: './module.component.css',
@@ -34,7 +38,7 @@ export class ModuleComponent {
   });
 
   formGroup: FormGroup = new FormGroup({
-    id: new FormControl(''),
+    id: new FormControl('', [Validators.required]),
     type: new FormControl(''),
   });
 

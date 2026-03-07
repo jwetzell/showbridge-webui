@@ -8,6 +8,7 @@ import { SchemaService } from '../../services/schema.service';
 import { JsonPipe } from '@angular/common';
 import { ProcessorComponent } from '../processor/processor.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-route',
@@ -18,12 +19,24 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatMenuModule,
     JsonPipe,
     ProcessorComponent,
+    MatTooltipModule,
   ],
   templateUrl: './route.component.html',
   styleUrl: './route.component.css',
 })
 export class RouteComponent {
   path = input<string>('');
+
+  index = computed(() => {
+    const path = this.path();
+    if (path) {
+      const parts = path.split('/');
+      const lastPart = parts[parts.length - 1];
+      return parseInt(lastPart, 10);
+    }
+    return undefined;
+  });
+
   route = model<RouteConfiguration>();
   moduleIds = input<string[]>([]);
   delete = output<void>();
@@ -84,6 +97,9 @@ export class RouteComponent {
         };
       }
       return route;
+    });
+    this.snackBar.open('Processor Added', 'Dismiss', {
+      duration: 3000,
     });
   }
 

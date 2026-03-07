@@ -1,6 +1,7 @@
 @if (paramsSchema && paramsFormInfo) {
   @if (paramsOptions.length > 1) {
     <mat-tab-group
+      dynamicHeight
       [selectedIndex]="paramsOptionsSelectedIndex"
       (selectedTabChange)="paramsOptionsTabSelected($event)"
     >
@@ -14,7 +15,7 @@
       @for (key of paramKeys(); track key) {
         <div class="flex items-center m-1">
           @if (getParamInfo(key); as paramInfo) {
-            <label class="mr-2 text-gray-300"> {{ paramInfo.display }}: </label>
+            <label class="mr-2 text-white"> {{ paramInfo.display }}: </label>
             @switch (paramInfo.type) {
               @case ('boolean') {
                 <input type="checkbox" [formControlName]="paramInfo.key" />
@@ -24,12 +25,12 @@
                   <input
                     type="number"
                     [placeholder]="paramInfo.placeholder"
-                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                     [formControlName]="paramInfo.key"
                   />
                 } @else {
                   <select
-                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                     [formControlName]="paramInfo.key"
                   >
                     @for (option of paramInfo.options; track option) {
@@ -39,19 +40,19 @@
                     }
                   </select>
                 }
-                <mat-icon class="!text-gray-200">123</mat-icon>
+                <mat-icon class="!text-white">123</mat-icon>
               }
               @case ('integer') {
                 @if (!paramInfo.options) {
                   <input
                     type="number"
                     [placeholder]="paramInfo.placeholder"
-                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                     [formControlName]="paramInfo.key"
                   />
                 } @else {
                   <select
-                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                     [formControlName]="paramInfo.key"
                   >
                     @for (option of paramInfo.options; track option) {
@@ -61,19 +62,19 @@
                     }
                   </select>
                 }
-                <mat-icon class="!text-gray-200" matTooltip="Number">123</mat-icon>
+                <mat-icon class="!text-white" matTooltip="Number">123</mat-icon>
               }
               @case ('string') {
                 @if (!paramInfo.options) {
                   <input
                     type="text"
-                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                     [placeholder]="paramInfo.placeholder"
                     [formControlName]="paramInfo.key"
                   />
                 } @else {
                   <select
-                    class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                    class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                     [formControlName]="paramInfo.key"
                   >
                     @for (option of paramInfo.options; track option) {
@@ -83,30 +84,37 @@
                     }
                   </select>
                 }
-                <mat-icon class="!text-gray-200" matTooltip="String">abc</mat-icon>
+                <mat-icon class="!text-white" matTooltip="String">abc</mat-icon>
               }
               @case ('array') {
                 <app-array-form
                   [paramFormControl]="paramsFormInfo.formGroup.get(paramInfo.key)"
                   [paramInfo]="paramInfo"
                 ></app-array-form>
-                <mat-icon class="!text-gray-200" matTooltip="Item list">data_array</mat-icon>
+                <mat-icon class="!text-white" matTooltip="Item list">data_array</mat-icon>
               }
               @case ('object') {
                 <!-- TODO(jwetzell): figure out how to display objects-->
                 <input
-                  class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                  class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                   [formControlName]="paramInfo.key"
                   [placeholder]="paramInfo.placeholder"
                 />
-                <mat-icon class="!text-gray-200" matTooltip="JSON">data_object</mat-icon>
+                <mat-icon class="!text-white" matTooltip="JSON">data_object</mat-icon>
               }
               @default {
                 <input
-                  class="pl-1 border-2 border-gray-200 text-gray-200 border-solid rounded-sm"
+                  class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
                   [formControlName]="paramInfo.key"
                 />
               }
+            }
+            @if (paramInfo.hint) {
+              <div class="flex items-center justify-center">
+                <mat-icon [matTooltip]="paramInfo.hint" class="ml-2 !text-white">
+                  help_outline
+                </mat-icon>
+              </div>
             }
             @if (!paramsFormInfo.formGroup.controls[key].valid) {
               <!-- TODO(jwetzell): better error displaying -->
@@ -114,11 +122,6 @@
                 {{ paramsFormInfo.formGroup.controls[key].errors | json }}
               </div>
             }
-            <div class="flex items-center justify-center">
-              <mat-icon [matTooltip]="paramInfo.hint" class="ml-2 !text-gray-200">
-                help_outline
-              </mat-icon>
-            </div>
           }
         </div>
       }
