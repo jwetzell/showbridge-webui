@@ -9,6 +9,6 @@ export const appRoutes: Routes = [
   },
   {
     path: 'config',
-    loadComponent: () => import('./config/config.component').then((m) => m.ConfigComponent),
+    loadComponent: () => import('./components/config/config.component').then((m) => m.ConfigComponent),
   },
 ];

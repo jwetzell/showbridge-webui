@@ -7,11 +7,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TimeagoModule } from 'ngx-timeago';
-import { Config } from '../models/config.models';
-import { ConfigService } from '../services/config.service';
-import { SchemaService } from '../services/schema.service';
-import { SettingsService } from '../services/settings.service';
-import { ConfigComponent } from './config/config.component';
+import { Config } from './models/config.models';
+import { ConfigService } from './services/config.service';
+import { SchemaService } from './services/schema.service';
+import { ConfigComponent } from './components/config/config.component';
 import * as yaml from 'js-yaml';
 import { RouterOutlet } from '@angular/router';
 

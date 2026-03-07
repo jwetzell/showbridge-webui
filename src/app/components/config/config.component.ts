@@ -2,7 +2,6 @@ import { Component, computed, inject, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Config, ModuleConfiguration, RouteConfiguration } from '../../models/config.models';
 import { SchemaService } from '../../services/schema.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
