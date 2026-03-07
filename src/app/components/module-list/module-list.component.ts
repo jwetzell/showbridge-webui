@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouteComponent } from '../route/route.component';
 
 @Component({
   selector: 'app-module-list',

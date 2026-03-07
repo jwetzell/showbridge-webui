@@ -1,13 +1,13 @@
-import { Component, computed, inject, model } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { Config, ModuleConfiguration, RouteConfiguration } from '../../models/config.models';
-import { SchemaService } from '../../services/schema.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Config, ModuleConfiguration, RouteConfiguration } from '../../models/config.models';
+import { ConfigService } from '../../services/config.service';
+import { SchemaService } from '../../services/schema.service';
 import { ModuleListComponent } from '../module-list/module-list.component';
 import { RouteListComponent } from '../route-list.component/route-list.component';
-import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-config',

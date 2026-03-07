@@ -2,7 +2,6 @@ import { computed, effect, Injectable, signal } from '@angular/core';
 import { cloneDeep } from 'lodash-es';
 import { Config } from '../models/config.models';
 import { SchemaService } from './schema.service';
-import { SettingsService } from './settings.service';
 @Injectable({
   providedIn: 'root',
 })
