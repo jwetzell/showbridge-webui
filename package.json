@@ -51,7 +51,7 @@
     "@types/js-yaml": "4.0.9",
     "@types/lodash-es": "4.17.12",
     "jsdom": "27.1.0",
-    "postcss": "8.5.3",
+    "postcss": "8.5.8",
     "prettier": "3.8.1",
     "tailwindcss": "4.1.12",
     "typescript": "5.9.2",
