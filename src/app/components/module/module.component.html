@@ -4,10 +4,10 @@
         isInError() ? 'border-red-500' : 'border-gray-600'
       }} border-solid w-full h-full"
     >
-      <div class="flex items-center justify-center mx-2">
+      <div class="flex items-center justify-center">
         <div class="flex items-center">
-          <mat-icon [style.color]="inputIndicatorColor()" matTooltip="Input Indicator">south</mat-icon>
-          <mat-icon [style.color]="outputIndicatorColor()" matTooltip="Output Indicator">north</mat-icon>
+          <mat-icon [style.color]="inputIndicatorColor()" matTooltip="Input Indicator">keyboard_arrow_down</mat-icon>
+          <mat-icon [style.color]="outputIndicatorColor()" matTooltip="Output Indicator">keyboard_arrow_up</mat-icon>
         </div>
         <div class="text-white">
           {{ schema().title || module()?.type }}
