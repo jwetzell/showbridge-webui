@@ -8,6 +8,16 @@
       <div matTooltip="Error" class="h-3 w-3 rounded-full bg-red-400 mr-2"></div>
     }
     <span>showbridge</span>
+    <div>
+       <label class="ml-4 mr-2">URL:</label>
+       <input
+         type="text"
+         class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
+         [placeholder]="'http://localhost:8000'"
+         [value]="settingsService.baseUrl()"
+         (change)="settingsService.baseUrl.set($event.target.value)"
+        />
+    </div>
     <span class="flex-auto"></span>
     <button mat-icon-button matTooltip="Download Config" (click)="downloadConfig()">
       <mat-icon>download</mat-icon>
