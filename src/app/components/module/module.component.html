@@ -4,14 +4,20 @@
         isInError() ? 'border-red-500' : 'border-gray-600'
       }} border-solid w-full h-full"
     >
-      <div class="flex items-center justify-center border-gray-600 border-b-2">
-        <div class="flex-grow ml-1 mr-3 text-white">
+      <div class="flex items-center justify-center">
+        <div class="flex items-center">
+          <mat-icon [style.color]="inputIndicatorColor()" matTooltip="Input Indicator">keyboard_arrow_down</mat-icon>
+          <mat-icon [style.color]="outputIndicatorColor()" matTooltip="Output Indicator">keyboard_arrow_up</mat-icon>
+        </div>
+        <div class="text-white">
           {{ schema().title || module()?.type }}
         </div>
-        <div class="flex items-center justify-center" (click)="delete.emit()">
+        <div class="flex-grow"></div>
+        <div class="flex items-center justify-center hover:bg-gray-700" (click)="delete.emit()">
           <mat-icon class="!text-red-500">close</mat-icon>
         </div>
       </div>
+      <hr class="bg-gray-600 h-0.5 border-0">
       <div>
         <form [formGroup]="formGroup" class="h-full">
           <div class="m-2">
@@ -37,5 +43,20 @@
           </div>
         </form>
       </div>
+      <div>
+      @if (moduleConfigErrors().length > 0) {
+        <div class="m-2 p-2 border-2 border-red-500">
+          <div class="flex items-center mb-2 text-red-500">
+            <mat-icon>error</mat-icon>
+            <span class="ml-1">Module Errors</span>
+          </div>
+          @for (error of moduleConfigErrors(); track error) {
+            <div class="ml-4 mb-1 text-white">
+              {{ error.error }}
+            </div>
+          }
+        </div>
+      }
+    </div>
     </div>
 }

@@ -1,7 +1,7 @@
 import { Component, inject, model } from '@angular/core';
 import { ModuleComponent } from '../module/module.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModuleConfiguration } from '../../models/config.models';
+import { ModuleConfig } from '../../models/config.models';
 import { SchemaService } from '../../services/schema.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,12 +21,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './module-list.component.css',
 })
 export class ModuleListComponent {
-  modules = model<ModuleConfiguration[]>();
+  modules = model<ModuleConfig[]>();
   public schemaService = inject(SchemaService);
 
   private snackBar = inject(MatSnackBar);
 
-  moduleUpdated(index: number, module: ModuleConfiguration | undefined) {
+  moduleUpdated(index: number, module: ModuleConfig | undefined) {
     if (module === undefined) {
       console.error('module is undefined, not updating');
       return;

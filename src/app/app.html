@@ -1,12 +1,29 @@
 <div class="h-screen max-h-screen flex flex-col">
   <mat-toolbar color="primary" class="w-full">
+    @if(eventsService.status() === 'open') {
+      <div matTooltip="Connected" class="h-3 w-3 rounded-full bg-green-400 mr-2"></div>
+    } @else if (eventsService.status() === 'closed') {
+      <div matTooltip="Disconnected" class="h-3 w-3 rounded-full bg-orange-400 mr-2"></div>
+    } @else if (eventsService.status() === 'error') {
+      <div matTooltip="Error" class="h-3 w-3 rounded-full bg-red-400 mr-2"></div>
+    }
     <span>showbridge</span>
+    <div>
+       <label class="ml-4 mr-2">URL:</label>
+       <input
+         type="text"
+         class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
+         [placeholder]="'http://localhost:8000'"
+         [value]="settingsService.baseUrl()"
+         (change)="settingsService.baseUrl.set($event.target.value)"
+        />
+    </div>
     <span class="flex-auto"></span>
     <button mat-icon-button matTooltip="Download Config" (click)="downloadConfig()">
       <mat-icon>download</mat-icon>
     </button>
     @if (configService.pendingConfigIsValid()) {
-      <button mat-icon-button matTooltip="Apply Config" (click)="applyConfig()">
+      <button mat-icon-button matTooltip="Apply Config" (click)="applyConfig()" [disabled]="!configService.configIsDirty()">
         <mat-icon>save</mat-icon>
       </button>
     } @else {

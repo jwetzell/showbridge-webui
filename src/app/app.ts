@@ -1,18 +1,18 @@
 import { Component, effect, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { TimeagoModule } from 'ngx-timeago';
+import { RouterOutlet } from '@angular/router';
+import * as yaml from 'js-yaml';
 import { Config } from './models/config.models';
 import { ConfigService } from './services/config.service';
+import { EventsService } from './services/events.service';
 import { SchemaService } from './services/schema.service';
-import { ConfigComponent } from './components/config/config.component';
-import * as yaml from 'js-yaml';
-import { RouterOutlet } from '@angular/router';
+import { SettingsService } from './services/settings.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-root',
@@ -20,9 +20,9 @@ import { RouterOutlet } from '@angular/router';
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    TimeagoModule,
     MatMenuModule,
     MatButtonModule,
+    MatTooltipModule,
     RouterOutlet
 ],
   templateUrl: './app.html',
@@ -32,6 +32,8 @@ export class App {
   public schemaService = inject(SchemaService);
   public configService = inject(ConfigService);
 
+  public settingsService = inject(SettingsService);
+  public eventsService = inject(EventsService);
   private snackBar = inject(MatSnackBar);
   constructor() {
     effect(() => {
@@ -44,8 +46,8 @@ export class App {
   applyConfig() {
     const config = this.configService.currentlyShownConfig();
     if (config !== undefined) {
-      this.configService.saveConfig(config);
-      this.snackBar.open('Config Saved', 'Dismiss', {
+      this.configService.uploadConfig(config);
+      this.snackBar.open('Config Uploaded', 'Dismiss', {
         duration: 3000,
       });
     }
