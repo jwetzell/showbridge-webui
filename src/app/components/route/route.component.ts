@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, model, output } from '@angular/core';
+import { Component, computed, inject, input, model, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,8 @@ import { JsonPipe } from '@angular/common';
 import { ProcessorComponent } from '../processor/processor.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EventsService } from '../../services/events.service';
+import { debounceTime, tap } from 'rxjs';
 
 @Component({
   selector: 'app-route',
@@ -55,6 +57,9 @@ export class RouteComponent {
 
   public schemaService = inject(SchemaService);
   private snackBar = inject(MatSnackBar);
+  private eventsService = inject(EventsService);
+
+  indicatorColor = signal<string>('gray');
 
   ngOnInit(): void {
     this.formGroup.patchValue({
@@ -73,6 +78,17 @@ export class RouteComponent {
         return undefined;
       });
     });
+
+    if (this.index() !== undefined) {
+      this.eventsService.getRouteEventsForIndex(this.index()!).pipe(
+        tap((routeEvent)=>{
+          this.indicatorColor.set(routeEvent.error ? 'red' : 'greenyellow');
+        }),
+        debounceTime(100)
+      ).subscribe((routeEvent) => {
+        this.indicatorColor.set('gray')
+      })
+    }
   }
 
   isInError(): boolean {

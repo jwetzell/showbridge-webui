@@ -5,11 +5,17 @@ import { computed, Injectable, signal } from '@angular/core';
 })
 export class SettingsService {
   public isDummySite: boolean = false;
-  public configSchemaPath = signal('/config.schema.json');
-  public modulesSchemaPath = signal('/modules.schema.json');
-  public routesSchemaPath = signal('/routes.schema.json');
-  public processorsSchemaPath = signal('/processors.schema.json');
-  public baseUrl = signal(window.location.href);
+  public configPath = signal('/api/v1/config');
+  public configSchemaPath = signal('/api/v1/schema/config');
+  public modulesSchemaPath = signal('/api/v1/schema/modules');
+  public routesSchemaPath = signal('/api/v1/schema/routes');
+  public processorsSchemaPath = signal('/api/v1/schema/processors');
+  public wsPath = signal('/ws');
+  public baseUrl = signal('http://localhost:8080');
+
+  public configUrl = computed(() => {
+    return new URL(this.configPath(), this.baseUrl());
+  });
 
   public configSchemaUrl = computed(() => {
     return new URL(this.configSchemaPath(), this.baseUrl());
@@ -25,6 +31,13 @@ export class SettingsService {
 
   public processorsSchemaUrl = computed(() => {
     return new URL(this.processorsSchemaPath(), this.baseUrl());
+  });
+
+  public wsUrl = computed(() => {
+    const url = new URL(this.baseUrl());
+    url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+    url.pathname = this.wsPath();
+    return url;
   });
 
   constructor() {}

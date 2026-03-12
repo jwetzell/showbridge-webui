@@ -8,6 +8,7 @@ import { ConfigService } from '../../services/config.service';
 import { SchemaService } from '../../services/schema.service';
 import { ModuleListComponent } from '../module-list/module-list.component';
 import { RouteListComponent } from '../route-list.component/route-list.component';
+import { EventsService } from '../../services/events.service';
 
 @Component({
   selector: 'app-config',
@@ -38,6 +39,8 @@ export class ConfigComponent {
 
   public configService = inject(ConfigService);
   public schemaService = inject(SchemaService);
+
+  public eventsService = inject(EventsService);
 
   modulesUpdated(modules: ModuleConfiguration[] | undefined) {
     if (modules === undefined) {

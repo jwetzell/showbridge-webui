@@ -1,7 +1,9 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { cloneDeep } from 'lodash-es';
 import { Config } from '../models/config.models';
 import { SchemaService } from './schema.service';
+import { HttpClient } from '@angular/common/http';
+import { SettingsService } from './settings.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,6 +17,9 @@ export class ConfigService {
   });
   currentlyShownConfig = signal<Config | undefined>(undefined);
 
+  private http = inject(HttpClient);
+  private settingsService = inject(SettingsService);
+  
   constructor(private schemaService: SchemaService) {
     this.loadConfig();
     effect(() => {
@@ -23,25 +28,45 @@ export class ConfigService {
   }
 
   loadConfig() {
-    const configString = localStorage.getItem('config');
-    if (configString) {
-      try {
-        const config = JSON.parse(configString);
-        const valid = this.schemaService.validate(config);
-        if (valid) {
-          console.log('Loaded config from local storage', config);
+    // const configString = localStorage.getItem('config');
+    // if (configString) {
+    //   try {
+    //     const config = JSON.parse(configString);
+    //     const valid = this.schemaService.validate(config);
+    //     if (valid) {
+    //       console.log('Loaded config from local storage', config);
+    //       this.updateCurrentlyShownConfig(config);
+    //     } else {
+    //       console.error('Config in local storage is invalid', config);
+    //       this.setEmptyConfig();
+    //     }
+    //   } catch (e) {
+    //     console.error('Failed to parse config from local storage', e);
+    //     this.setEmptyConfig();
+    //   }
+    // } else {
+    //   this.setEmptyConfig();
+    // }
+    const configUrl = this.settingsService.configUrl();
+    if (!configUrl) {
+      console.error('Config URL is not set');
+      this.setEmptyConfig();
+      return;
+    }
+    this.http.get<Config>(configUrl.toString()).subscribe({
+      next: (config) => {
+        if (this.schemaService.validate(config)) {
           this.updateCurrentlyShownConfig(config);
         } else {
-          console.error('Config in local storage is invalid', config);
+          console.error('Config from server is invalid', config);
           this.setEmptyConfig();
         }
-      } catch (e) {
-        console.error('Failed to parse config from local storage', e);
+      },
+      error: (err) => {
+        console.error('Failed to load config from server', err);
         this.setEmptyConfig();
-      }
-    } else {
-      this.setEmptyConfig();
-    }
+      },
+    });
   }
 
   setEmptyConfig() {

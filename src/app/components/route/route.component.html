@@ -5,12 +5,14 @@
       isInError() ? 'border-red-500' : 'border-gray-600'
     }} border-solid w-full h-full"
   >
-    <div class="flex items-center justify-end border-gray-600 border-b-2">
+    <div class="flex items-center justify-end mx-2">
+      <div [style.backgroundColor]="indicatorColor()" class="h-2 w-2 rounded-full"></div>
       <div class="flex-grow text-left ml-2 text-white">Route {{ index() }}</div>
       <div class="flex items-center justify-center hover:bg-gray-700" (click)="delete.emit()">
         <mat-icon class="!text-red-500">close</mat-icon>
       </div>
     </div>
+    <hr class="bg-gray-600 h-0.5 border-0">
     <div>
       <form [formGroup]="formGroup">
         <div class="m-2">

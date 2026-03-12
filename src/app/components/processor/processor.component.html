@@ -5,7 +5,7 @@
         isInError() ? 'border-red-500' : 'border-gray-600'
       }} border-solid w-fit h-full"
     >
-      <div class="flex items-center justify-center border-gray-600 border-b-2">
+      <div class="flex items-center justify-center">
         <div class="flex-grow ml-1 mr-3 text-white">
           {{ schema()?.title || processor()?.type }}
         </div>
@@ -14,6 +14,7 @@
         </div>
       </div>
       @if (hasParams()) {
+        <hr class="bg-gray-600 h-0.5 border-0">
         <div>
           <app-params-form
             [paramsSchema]="schema()?.properties?.params"

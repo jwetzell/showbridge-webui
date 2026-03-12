@@ -1,5 +1,12 @@
 <div class="h-screen max-h-screen flex flex-col">
   <mat-toolbar color="primary" class="w-full">
+    @if(eventsService.status() === 'open') {
+      <div matTooltip="Connected" class="h-3 w-3 rounded-full bg-green-400 mr-2"></div>
+    } @else if (eventsService.status() === 'closed') {
+      <div matTooltip="Disconnected" class="h-3 w-3 rounded-full bg-orange-400 mr-2"></div>
+    } @else if (eventsService.status() === 'error') {
+      <div matTooltip="Error" class="h-3 w-3 rounded-full bg-red-400 mr-2"></div>
+    }
     <span>showbridge</span>
     <span class="flex-auto"></span>
     <button mat-icon-button matTooltip="Download Config" (click)="downloadConfig()">
