@@ -7,12 +7,10 @@
       <div class="flex items-center justify-center mx-2">
         <div class="flex items-center">
           <mat-icon [style.color]="inputIndicatorColor()" matTooltip="Input Indicator">south</mat-icon>
+          <mat-icon [style.color]="outputIndicatorColor()" matTooltip="Output Indicator">north</mat-icon>
         </div>
         <div class="text-white">
           {{ schema().title || module()?.type }}
-        </div>
-        <div class="flex items-center">
-          <mat-icon [style.color]="outputIndicatorColor()" matTooltip="Output Indicator">north</mat-icon>
         </div>
         <div class="flex-grow"></div>
         <div class="flex items-center justify-center hover:bg-gray-700" (click)="delete.emit()">
