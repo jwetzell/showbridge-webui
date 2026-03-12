@@ -1,6 +1,7 @@
 export type Config = {
-  modules: ModuleConfiguration[];
-  routes: RouteConfiguration[];
+  api: ApiConfig
+  modules: ModuleConfig[];
+  routes: RouteConfig[];
 };
 
 export type ConfigState = {
@@ -9,19 +10,40 @@ export type ConfigState = {
   isCurrent: boolean;
 };
 
-export type ModuleConfiguration = {
+export type ApiConfig = {
+  port: number;
+};
+
+export type ModuleConfig = {
   id?: string;
   type: string;
   params?: Record<string, any>;
 };
 
-export type RouteConfiguration = {
+export type RouteConfig = {
   input?: string;
-  processors?: ProcessorConfiguration[];
-  output?: string;
+  processors?: ProcessorConfig[];
 };
 
-export type ProcessorConfiguration = {
+export type ProcessorConfig = {
   type: string;
   params?: Record<string, any>;
 };
+
+
+export type ModuleError = {
+  index: number;
+  config: ModuleConfig;
+  error: string;
+}
+
+export type RouteError = {
+  index: number;
+  config: RouteConfig;
+  error: string;
+}
+
+export type ConfigError = {
+  moduleErrors?: ModuleError[];
+  routeErrors?: RouteError[];
+}

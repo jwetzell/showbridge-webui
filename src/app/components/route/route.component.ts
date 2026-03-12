@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { ProcessorConfiguration, RouteConfiguration } from '../../models/config.models';
+import { ProcessorConfig, RouteConfig } from '../../models/config.models';
 import { SchemaService } from '../../services/schema.service';
 import { JsonPipe } from '@angular/common';
 import { ProcessorComponent } from '../processor/processor.component';
@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EventsService } from '../../services/events.service';
 import { debounceTime, tap } from 'rxjs';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-route',
@@ -39,7 +40,7 @@ export class RouteComponent {
     return undefined;
   });
 
-  route = model<RouteConfiguration>();
+  route = model<RouteConfig>();
   moduleIds = input<string[]>([]);
   delete = output<void>();
 
@@ -51,6 +52,15 @@ export class RouteComponent {
     return [];
   });
 
+  routeConfigErrors = computed(() => {
+    const index = this.index();
+    const routeErrors = this.configService.routeErrors();
+    if (index !== undefined) {
+      return routeErrors.filter((error) => error.index === index);
+    }
+    return [];
+  });
+
   formGroup: FormGroup = new FormGroup({
     input: new FormControl('', [Validators.required]),
   });
@@ -58,6 +68,7 @@ export class RouteComponent {
   public schemaService = inject(SchemaService);
   private snackBar = inject(MatSnackBar);
   private eventsService = inject(EventsService);
+  private configService = inject(ConfigService);
 
   indicatorColor = signal<string>('gray');
 
@@ -119,7 +130,7 @@ export class RouteComponent {
     });
   }
 
-  processorUpdated(index: number, processor: ProcessorConfiguration | undefined) {
+  processorUpdated(index: number, processor: ProcessorConfig | undefined) {
     if (processor === undefined) {
       console.error('processor is undefined, not updating');
       return;

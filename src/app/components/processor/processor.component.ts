@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, model, output, signal } from '@angular/core';
-import { ProcessorConfiguration } from '../../models/config.models';
+import { ProcessorConfig } from '../../models/config.models';
 import { SchemaService } from '../../services/schema.service';
 import { MatIconModule } from '@angular/material/icon';
 import { ParamsFormComponent } from '../params-form/params-form.component';
@@ -13,7 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class ProcessorComponent {
   path = input<string>('');
-  processor = model<ProcessorConfiguration>();
+  processor = model<ProcessorConfig>();
   delete = output<void>();
 
   params = computed(() => this.processor()!.params);

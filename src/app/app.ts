@@ -46,8 +46,8 @@ export class App {
   applyConfig() {
     const config = this.configService.currentlyShownConfig();
     if (config !== undefined) {
-      this.configService.saveConfig(config);
-      this.snackBar.open('Config Saved', 'Dismiss', {
+      this.configService.uploadConfig(config);
+      this.snackBar.open('Config Uploaded', 'Dismiss', {
         duration: 3000,
       });
     }

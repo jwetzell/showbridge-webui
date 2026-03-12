@@ -1,9 +1,10 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { cloneDeep } from 'lodash-es';
-import { Config } from '../models/config.models';
+import { cloneDeep, isEqual } from 'lodash-es';
+import { Config, ConfigError, ModuleError, RouteError } from '../models/config.models';
 import { SchemaService } from './schema.service';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings.service';
+import { EventsService } from './events.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,6 +17,19 @@ export class ConfigService {
     return this.schemaService.validate(config);
   });
   currentlyShownConfig = signal<Config | undefined>(undefined);
+  runningConfig = signal<Config | undefined>(undefined);
+
+  configIsDirty = computed(() => {
+    const currentlyShown = this.currentlyShownConfig();
+    const running = this.runningConfig();
+    if (currentlyShown === undefined || running === undefined) {
+      return false;
+    }
+    return !isEqual(currentlyShown, running);
+  });
+
+  moduleErrors = signal<ModuleError[]>([]);
+  routeErrors = signal<RouteError[]>([]);
 
   private http = inject(HttpClient);
   private settingsService = inject(SettingsService);
@@ -28,25 +42,6 @@ export class ConfigService {
   }
 
   loadConfig() {
-    // const configString = localStorage.getItem('config');
-    // if (configString) {
-    //   try {
-    //     const config = JSON.parse(configString);
-    //     const valid = this.schemaService.validate(config);
-    //     if (valid) {
-    //       console.log('Loaded config from local storage', config);
-    //       this.updateCurrentlyShownConfig(config);
-    //     } else {
-    //       console.error('Config in local storage is invalid', config);
-    //       this.setEmptyConfig();
-    //     }
-    //   } catch (e) {
-    //     console.error('Failed to parse config from local storage', e);
-    //     this.setEmptyConfig();
-    //   }
-    // } else {
-    //   this.setEmptyConfig();
-    // }
     const configUrl = this.settingsService.configUrl();
     if (!configUrl) {
       console.error('Config URL is not set');
@@ -57,6 +52,7 @@ export class ConfigService {
       next: (config) => {
         if (this.schemaService.validate(config)) {
           this.updateCurrentlyShownConfig(config);
+          this.runningConfig.set(cloneDeep(config));
         } else {
           console.error('Config from server is invalid', config);
           this.setEmptyConfig();
@@ -69,21 +65,46 @@ export class ConfigService {
     });
   }
 
+  uploadConfig(config: Config) {
+    if (this.schemaService.validate(config)) {
+      this.updateCurrentlyShownConfig(config);
+      const configUrl = this.settingsService.configUrl();
+      if (!configUrl) {
+        console.error('Config URL is not set, cannot upload config');
+        return;
+      }
+      this.http.put<ConfigError>(configUrl.toString(), config).subscribe({
+        next: () => {
+          console.log('Config uploaded successfully');
+          this.moduleErrors.set([]);
+          this.routeErrors.set([]);
+          this.runningConfig.set(cloneDeep(config));
+        },
+        error: (err) => {
+          console.error('Problems occurred while uploading config', err);
+          if (err.error) {
+            const configError: ConfigError = err.error;
+            this.moduleErrors.set(configError.moduleErrors ?? []);
+            this.routeErrors.set(configError.routeErrors ?? []);
+          }
+          this.runningConfig.set(cloneDeep(config));
+        },
+      });
+    } else {
+      console.error('Uploaded config is invalid', config);
+    }
+  }
+
   setEmptyConfig() {
     console.log('Setting empty config');
     this.updateCurrentlyShownConfig({
+      api: { port: 8080 },
       modules: [],
       routes: [],
     });
   }
 
-  saveConfig(config: Config) {
-    localStorage.setItem('config', JSON.stringify(config));
-    console.log('Config saved to local storage', config);
-  }
-
   updateCurrentlyShownConfig(config: Config) {
-    // NOTE(jwetzell): mark the configStates that match the currently shown as such
     this.currentlyShownConfig.set(cloneDeep(config));
   }
 }

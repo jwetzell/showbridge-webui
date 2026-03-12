@@ -23,7 +23,7 @@
       <mat-icon>download</mat-icon>
     </button>
     @if (configService.pendingConfigIsValid()) {
-      <button mat-icon-button matTooltip="Apply Config" (click)="applyConfig()">
+      <button mat-icon-button matTooltip="Apply Config" (click)="applyConfig()" [disabled]="!configService.configIsDirty()">
         <mat-icon>save</mat-icon>
       </button>
     } @else {

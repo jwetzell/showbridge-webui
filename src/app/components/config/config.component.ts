@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Config, ModuleConfiguration, RouteConfiguration } from '../../models/config.models';
+import { Config, ModuleConfig, RouteConfig } from '../../models/config.models';
 import { ConfigService } from '../../services/config.service';
 import { SchemaService } from '../../services/schema.service';
 import { ModuleListComponent } from '../module-list/module-list.component';
@@ -42,7 +42,7 @@ export class ConfigComponent {
 
   public eventsService = inject(EventsService);
 
-  modulesUpdated(modules: ModuleConfiguration[] | undefined) {
+  modulesUpdated(modules: ModuleConfig[] | undefined) {
     if (modules === undefined) {
       console.error('modules is undefined, not updating');
       return;
@@ -58,7 +58,7 @@ export class ConfigComponent {
     });
   }
 
-  routesUpdated(routes: RouteConfiguration[] | undefined) {
+  routesUpdated(routes: RouteConfig[] | undefined) {
     if (routes === undefined) {
       console.error('routes is undefined, not updating');
       return;

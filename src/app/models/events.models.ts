@@ -1,3 +1,4 @@
+import { Config } from "./config.models"
 
 export type RouterEvent<T, D> = {
     type: T,

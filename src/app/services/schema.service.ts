@@ -11,19 +11,18 @@ import {
 import { Ajv2020, JSONSchemaType } from 'ajv/dist/2020';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 import { sortBy } from 'lodash-es';
-import { Config, ModuleConfiguration, ProcessorConfiguration } from '../models/config.models';
+import { Config, ModuleConfig, ProcessorConfig, RouteConfig } from '../models/config.models';
 import { ObjectInfo, ParamsFormInfo } from '../models/form.model';
 import { SettingsService } from './settings.service';
-import { RouteConfiguration } from '../models/config.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SchemaService {
   configSchema = signal<JSONSchemaType<Config> | undefined>(undefined);
-  modulesSchema = signal<JSONSchemaType<ModuleConfiguration[]> | undefined>(undefined);
-  routesSchema = signal<JSONSchemaType<RouteConfiguration[]> | undefined>(undefined);
-  processorsSchema = signal<JSONSchemaType<ProcessorConfiguration[]> | undefined>(undefined);
+  modulesSchema = signal<JSONSchemaType<ModuleConfig[]> | undefined>(undefined);
+  routesSchema = signal<JSONSchemaType<RouteConfig[]> | undefined>(undefined);
+  processorsSchema = signal<JSONSchemaType<ProcessorConfig[]> | undefined>(undefined);
 
   schemasLoaded = computed(() => {
     return (
@@ -90,7 +89,7 @@ export class SchemaService {
   loadModulesSchema() {
     this.http
       .get<
-        JSONSchemaType<ModuleConfiguration[]>
+        JSONSchemaType<ModuleConfig[]>
       >(this.settingsService.modulesSchemaUrl().toString())
       .subscribe((schema) => {
         this.setModulesSchema(schema);
@@ -99,7 +98,7 @@ export class SchemaService {
 
   loadRoutesSchema() {
     this.http
-      .get<JSONSchemaType<RouteConfiguration[]>>(this.settingsService.routesSchemaUrl().toString())
+      .get<JSONSchemaType<RouteConfig[]>>(this.settingsService.routesSchemaUrl().toString())
       .subscribe((schema) => {
         this.setRoutesSchema(schema);
       });
@@ -108,7 +107,7 @@ export class SchemaService {
   loadProcessorsSchema() {
     this.http
       .get<
-        JSONSchemaType<ProcessorConfiguration[]>
+        JSONSchemaType<ProcessorConfig[]>
       >(this.settingsService.processorsSchemaUrl().toString())
       .subscribe((schema) => {
         this.setProcessorsSchema(schema);
@@ -142,13 +141,13 @@ export class SchemaService {
     return true;
   }
 
-  getSkeletonForRoute(): RouteConfiguration {
-    const template: RouteConfiguration = {};
+  getSkeletonForRoute(): RouteConfig {
+    const template: RouteConfig = {};
     return template;
   }
 
-  getSkeletonForProcessor(processorType: string): ProcessorConfiguration {
-    const template: ProcessorConfiguration = {
+  getSkeletonForProcessor(processorType: string): ProcessorConfig {
+    const template: ProcessorConfig = {
       type: processorType,
     };
     const itemInfo = this.processorTypes.find((itemInfo) => itemInfo.type === processorType);
@@ -160,8 +159,8 @@ export class SchemaService {
     return template;
   }
 
-  getSkeletonForModule(moduleType: string): ModuleConfiguration {
-    const template: ModuleConfiguration = {
+  getSkeletonForModule(moduleType: string): ModuleConfig {
+    const template: ModuleConfig = {
       type: moduleType,
     };
     const itemInfo = this.moduleTypes.find((itemInfo) => itemInfo.type === moduleType);
@@ -198,17 +197,17 @@ export class SchemaService {
     this.configSchema.set(schema);
   }
 
-  setModulesSchema(schema: JSONSchemaType<ModuleConfiguration[]>) {
+  setModulesSchema(schema: JSONSchemaType<ModuleConfig[]>) {
     this.modulesSchema.set(schema);
     this.moduleTypes = [];
     this.populateModuleTypes();
   }
 
-  setRoutesSchema(schema: JSONSchemaType<RouteConfiguration[]>) {
+  setRoutesSchema(schema: JSONSchemaType<RouteConfig[]>) {
     this.routesSchema.set(schema);
   }
 
-  setProcessorsSchema(schema: JSONSchemaType<ProcessorConfiguration[]>) {
+  setProcessorsSchema(schema: JSONSchemaType<ProcessorConfig[]>) {
     this.processorsSchema.set(schema);
     this.processorTypes = [];
     this.populateProcessorTypes();

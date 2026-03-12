@@ -1,6 +1,6 @@
 import { Component, inject, input, model } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModuleConfiguration, RouteConfiguration } from '../../models/config.models';
+import { ModuleConfig, RouteConfig } from '../../models/config.models';
 import { SchemaService } from '../../services/schema.service';
 import { RouteComponent } from '../route/route.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class RouteListComponent {
 
-  routes = model<RouteConfiguration[]>();
+  routes = model<RouteConfig[]>();
   moduleIds = input<string[]>();
   public schemaService = inject(SchemaService);
 
@@ -41,7 +41,7 @@ export class RouteListComponent {
     });
   }
 
-  routeUpdated(index: number, route: RouteConfiguration | undefined) {
+  routeUpdated(index: number, route: RouteConfig | undefined) {
     if (route === undefined) {
       console.error('route is undefined, not updating');
       return;
@@ -49,7 +49,6 @@ export class RouteListComponent {
     this.routes.update((routes) => {
       if (routes) {
         routes[index].input = route.input;
-        routes[index].output = route.output;
         return [...routes];
       }
       return routes;

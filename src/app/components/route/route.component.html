@@ -73,6 +73,21 @@
           }
       </div>
     </div>
+    <div>
+      @if (routeConfigErrors().length > 0) {
+        <div class="m-2 p-2 border-2 border-red-500">
+          <div class="flex items-center mb-2 text-red-500">
+            <mat-icon>error</mat-icon>
+            <span class="ml-1">Route Errors</span>
+          </div>
+          @for (error of routeConfigErrors(); track error) {
+            <div class="ml-4 mb-1 text-white">
+              {{ error.error }}
+            </div>
+          }
+        </div>
+      }
+    </div>
   </div>
   <!-- </div> -->
 
