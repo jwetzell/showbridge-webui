@@ -3,14 +3,14 @@
   <div
     class="flex flex-col bg-gray-800 border-2 {{
       isInError() ? 'border-red-500' : 'border-gray-600'
-    }} border-solid w-full h-full"
+    }} border-solid w-full"
   >
     <div class="flex items-center justify-end">
       <div class="flex items-center">
           <mat-icon [style.color]="indicatorColor()" matTooltip="Route Indicator">chevron_right</mat-icon>
       </div>
       <div class="flex-grow text-left ml-2 text-white">Route {{ index() }}</div>
-      <div class="flex items-center justify-center hover:bg-gray-700" (click)="delete.emit()">
+      <div class="flex items-center justify-center hover:bg-gray-700 hover:cursor-pointer" (click)="delete.emit()">
         <mat-icon class="!text-red-500">close</mat-icon>
       </div>
     </div>

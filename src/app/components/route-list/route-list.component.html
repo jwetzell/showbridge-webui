@@ -12,7 +12,7 @@
   <div class="flex-grow overflow-x-hidden overflow-y-auto gap-1.5">
     @for (route of routes(); track route; let i = $index) {
       <div class="m-2">
-        <app-route
+        <app-route 
           [path]="`routes/${i}`"
           (routeChange)="routeUpdated(i, $event)"
           [route]="route"

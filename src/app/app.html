@@ -1,48 +1,48 @@
 <div class="h-screen max-h-screen flex flex-col">
-  <mat-toolbar color="primary" class="w-full">
-    @if(eventsService.status() === 'open') {
-      <div matTooltip="Connected" class="h-3 w-3 rounded-full bg-green-400 mr-2"></div>
-    } @else if (eventsService.status() === 'closed') {
-      <div matTooltip="Disconnected" class="h-3 w-3 rounded-full bg-orange-400 mr-2"></div>
-    } @else if (eventsService.status() === 'error') {
-      <div matTooltip="Error" class="h-3 w-3 rounded-full bg-red-400 mr-2"></div>
-    }
-    <span>showbridge</span>
-    <div>
-       <label class="ml-4 mr-2">URL:</label>
-       <input
-         type="text"
-         class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
-         [placeholder]="'http://localhost:8000'"
-         [value]="settingsService.baseUrl()"
-         (change)="settingsService.baseUrl.set($event.target.value)"
-        />
-    </div>
-    <span class="flex-auto"></span>
-    <button mat-icon-button matTooltip="Download Config" (click)="downloadConfig()">
-      <mat-icon>download</mat-icon>
-    </button>
-    @if (configService.pendingConfigIsValid()) {
-      <button mat-icon-button matTooltip="Apply Config" (click)="applyConfig()" [disabled]="!configService.configIsDirty()">
-        <mat-icon>save</mat-icon>
-      </button>
-    } @else {
-      <div
-        class="flex items-center justify-center text-red-500 hover:cursor-pointer"
-        matTooltip="Config Errors"
-      >
-        <mat-icon>error</mat-icon>
+  <div class="w-full">
+    <mat-toolbar color="primary">
+      @if(eventsService.status() === 'open') {
+        <div matTooltip="Connected" class="h-3 w-3 rounded-full bg-green-400 mr-2"></div>
+      } @else if (eventsService.status() === 'closed') {
+        <div matTooltip="Disconnected" class="h-3 w-3 rounded-full bg-orange-400 mr-2"></div>
+      } @else if (eventsService.status() === 'error') {
+        <div matTooltip="Error" class="h-3 w-3 rounded-full bg-red-400 mr-2"></div>
+      }
+      <span>showbridge</span>
+      <div>
+         <label class="ml-4 mr-2">URL:</label>
+         <input
+           type="text"
+           class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
+           [placeholder]="'http://localhost:8000'"
+           [value]="settingsService.baseUrl()"
+           (change)="settingsService.baseUrl.set($event.target.value)"
+          />
       </div>
-    }
-  </mat-toolbar>
-  <div class="flex-grow h-full overflow-y-auto">
-    <router-outlet></router-outlet>
-    <!-- @if (configService.currentlyShownConfig() && schemaService.schemasLoaded()) {
-      <app-config [(config)]="configService.currentlyShownConfig"></app-config>
-    } @else {
-      <div class="flex items-center justify-center mt-28">
-        <mat-spinner></mat-spinner>
-      </div>
-    } -->
+      <span class="flex-auto"></span>
+      @if (configService.pendingConfigIsValid()) {
+        <button mat-icon-button matTooltip="Apply Config" (click)="applyConfig()" [disabled]="!configService.configIsDirty()">
+          <mat-icon>save</mat-icon>
+        </button>
+      } @else {
+        <div
+          class="flex items-center justify-center text-red-500 hover:cursor-pointer"
+          matTooltip="Config Errors"
+        >
+          <mat-icon>error</mat-icon>
+        </div>
+      }
+    </mat-toolbar>
   </div>
+  @if (schemaService.schemasLoaded()) {
+    <div class="flex-grow overflow-hidden flex">
+      <div class="flex-grow overflow-y-auto">
+        <app-module-list [modules]="config()?.modules" (modulesChange)="modulesUpdated($event)"></app-module-list>
+        <app-route-list [routes]="config()?.routes" [moduleIds]="moduleIds()" (routesChange)="routesUpdated($event)"></app-route-list>
+      </div>
+      <div class="w-1/2 overflow-y-hidden">
+        <app-config-preview [config]="config()"></app-config-preview>
+      </div>
+    </div>
+  }
 </div>

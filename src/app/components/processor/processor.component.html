@@ -9,7 +9,7 @@
         <div class="flex-grow ml-1 mr-3 text-white">
           {{ schema()?.title || processor()?.type }}
         </div>
-        <div class="flex items-center justify-center hover:bg-gray-700" (click)="delete.emit()">
+        <div class="flex items-center justify-center hover:bg-gray-700 hover:cursor-pointer" (click)="delete.emit()">
           <mat-icon class="!text-red-500">close</mat-icon>
         </div>
       </div>

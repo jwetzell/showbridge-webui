@@ -13,7 +13,7 @@
           {{ schema().title || module()?.type }}
         </div>
         <div class="flex-grow"></div>
-        <div class="flex items-center justify-center hover:bg-gray-700" (click)="delete.emit()">
+        <div class="flex items-center justify-center hover:bg-gray-700 hover:cursor-pointer" (click)="delete.emit()">
           <mat-icon class="!text-red-500">close</mat-icon>
         </div>
       </div>

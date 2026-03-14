@@ -1,4 +1,0 @@
-@if (config() && schemaService.schemasLoaded()) {
-  <app-module-list [modules]="config()?.modules" (modulesChange)="modulesUpdated($event)"></app-module-list>
-  <app-route-list [routes]="config()?.routes" [moduleIds]="moduleIds()" (routesChange)="routesUpdated($event)"></app-route-list>
-}

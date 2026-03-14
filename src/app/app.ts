@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -7,12 +7,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
 import * as yaml from 'js-yaml';
-import { Config } from './models/config.models';
+import { Config, ModuleConfig, RouteConfig } from './models/config.models';
 import { ConfigService } from './services/config.service';
 import { EventsService } from './services/events.service';
 import { SchemaService } from './services/schema.service';
 import { SettingsService } from './services/settings.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ModuleListComponent } from './components/module-list/module-list.component';
+import { RouteListComponent } from './components/route-list/route-list.component';
+import { ConfigPreviewComponent } from './components/config-preview/config-preview.component';
 
 @Component({
   selector: 'app-root',
@@ -23,12 +26,28 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatMenuModule,
     MatButtonModule,
     MatTooltipModule,
-    RouterOutlet
+    ModuleListComponent,
+    RouteListComponent,
+    ConfigPreviewComponent
 ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+
+  config = computed<Config | undefined>(() => this.configService.currentlyShownConfig());
+
+  modules = computed(() => this.config()?.modules ?? []);
+  routes = computed(() => this.config()?.routes ?? []);
+
+  moduleIds = computed(() => {
+    const config = this.config();
+    if (config !== undefined && config.modules !== undefined) {
+      return config.modules.map((module) => module.id!) ?? [];
+    }
+    return [];
+  });
+  
   public schemaService = inject(SchemaService);
   public configService = inject(ConfigService);
 
@@ -57,46 +76,35 @@ export class App {
     this.configService.updateCurrentlyShownConfig(config);
   }
 
-  downloadConfig() {
-    const config = this.configService.currentlyShownConfig();
-    if (config) {
-      this.downloadYAML(config, 'config.yaml');
-    } else {
-      this.snackBar.open('No config to download.', 'Dismiss', {
-        duration: 3000,
-      });
+  modulesUpdated(modules: ModuleConfig[] | undefined) {
+    if (modules === undefined) {
+      console.error('modules is undefined, not updating');
+      return;
     }
+    this.configService.currentlyShownConfig.update((config) => {
+      if (config) {
+        return {
+          ...config,
+          modules: modules,
+        };
+      }
+      return config;
+    });
   }
 
-  downloadJSON(data: object, filename: string) {
-    const content = JSON.stringify(data, null, 2);
-    const dataUri = URL.createObjectURL(
-      new Blob([content], {
-        type: 'application/json;charset=utf-8',
-      }),
-    );
-    const dummyLink = document.createElement('a');
-    dummyLink.href = dataUri;
-    dummyLink.download = filename;
-
-    document.body.appendChild(dummyLink);
-    dummyLink.click();
-    document.body.removeChild(dummyLink);
-  }
-
-  downloadYAML(data: object, filename: string) {
-    const content = yaml.dump(data);
-    const dataUri = URL.createObjectURL(
-      new Blob([content], {
-        type: 'application/yaml;charset=utf-8',
-      }),
-    );
-    const dummyLink = document.createElement('a');
-    dummyLink.href = dataUri;
-    dummyLink.download = filename;
-
-    document.body.appendChild(dummyLink);
-    dummyLink.click();
-    document.body.removeChild(dummyLink);
+  routesUpdated(routes: RouteConfig[] | undefined) {
+    if (routes === undefined) {
+      console.error('routes is undefined, not updating');
+      return;
+    }
+    this.configService.currentlyShownConfig.update((config) => {
+      if (config) {
+        return {
+          ...config,
+          routes: routes,
+        };
+      }
+      return config;
+    });
   }
 }
