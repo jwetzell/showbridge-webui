@@ -46,7 +46,7 @@
     "@angular/cli": "21.2.2",
     "@angular/compiler-cli": "21.2.4",
     "@angular/material": "21.2.2",
-    "@tailwindcss/postcss": "4.1.12",
+    "@tailwindcss/postcss": "4.2.1",
     "@types/js-yaml": "4.0.9",
     "@types/lodash-es": "4.17.12",
     "jsdom": "28.1.0",
