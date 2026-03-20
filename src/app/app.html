@@ -16,7 +16,7 @@
            class="pl-1 border-2 border-gray-200 text-white border-solid rounded-sm"
            [placeholder]="'http://localhost:8000'"
            [value]="settingsService.baseUrl()"
-           (change)="settingsService.baseUrl.set($event.target.value)"
+           (change)="settingsService.updateBaseUrl($event.target.value)"
           />
       </div>
       <span class="flex-auto"></span>

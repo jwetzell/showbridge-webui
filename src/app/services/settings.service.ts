@@ -40,9 +40,15 @@ export class SettingsService {
     return url;
   });
 
-  constructor() {}
+  constructor() {
+    const storedBaseUrl = localStorage.getItem('baseUrl');
+    if (storedBaseUrl) {
+      this.baseUrl.set(storedBaseUrl);
+    }
+  }
 
   updateBaseUrl(baseUrl: string) {
     this.baseUrl.set(baseUrl);
+    localStorage.setItem('baseUrl', baseUrl);
   }
 }
