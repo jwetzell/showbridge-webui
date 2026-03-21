@@ -40,7 +40,7 @@
                     }
                   </select>
                 }
-                <mat-icon class="!text-white">123</mat-icon>
+                <mat-icon class="text-white!">123</mat-icon>
               }
               @case ('integer') {
                 @if (!paramInfo.options) {
@@ -62,7 +62,7 @@
                     }
                   </select>
                 }
-                <mat-icon class="!text-white" matTooltip="Number">123</mat-icon>
+                <mat-icon class="text-white!" matTooltip="Number">123</mat-icon>
               }
               @case ('string') {
                 @if (!paramInfo.options) {
@@ -84,14 +84,14 @@
                     }
                   </select>
                 }
-                <mat-icon class="!text-white" matTooltip="String">abc</mat-icon>
+                <mat-icon class="text-white!" matTooltip="String">abc</mat-icon>
               }
               @case ('array') {
                 <app-array-form
                   [paramFormControl]="paramsFormInfo.formGroup.get(paramInfo.key)"
                   [paramInfo]="paramInfo"
                 ></app-array-form>
-                <mat-icon class="!text-white" matTooltip="Item list">data_array</mat-icon>
+                <mat-icon class="text-white!" matTooltip="Item list">data_array</mat-icon>
               }
               @case ('object') {
                 <!-- TODO(jwetzell): figure out how to display objects-->
@@ -100,7 +100,7 @@
                   [formControlName]="paramInfo.key"
                   [placeholder]="paramInfo.placeholder"
                 />
-                <mat-icon class="!text-white" matTooltip="JSON">data_object</mat-icon>
+                <mat-icon class="text-white!" matTooltip="JSON">data_object</mat-icon>
               }
               @default {
                 <input
@@ -111,7 +111,7 @@
             }
             @if (paramInfo.hint) {
               <div class="flex items-center justify-center">
-                <mat-icon [matTooltip]="paramInfo.hint" class="ml-2 !text-white">
+                <mat-icon [matTooltip]="paramInfo.hint" class="ml-2 text-white!">
                   help_outline
                 </mat-icon>
               </div>

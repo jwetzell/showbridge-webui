@@ -9,9 +9,9 @@
       <div class="flex items-center">
           <mat-icon [style.color]="indicatorColor()" matTooltip="Route Indicator">chevron_right</mat-icon>
       </div>
-      <div class="flex-grow text-left ml-2 text-white">Route {{ index() }}</div>
+      <div class="grow text-left ml-2 text-white">Route {{ index() }}</div>
       <div class="flex items-center justify-center hover:bg-gray-700 hover:cursor-pointer" (click)="delete.emit()">
-        <mat-icon class="!text-red-500">close</mat-icon>
+        <mat-icon class="text-red-500!">close</mat-icon>
       </div>
     </div>
     <hr class="bg-gray-600 h-0.5 border-0">

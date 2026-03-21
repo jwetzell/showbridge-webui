@@ -12,9 +12,9 @@
         <div class="text-white">
           {{ schema().title || module()?.type }}
         </div>
-        <div class="flex-grow"></div>
+        <div class="grow"></div>
         <div class="flex items-center justify-center hover:bg-gray-700 hover:cursor-pointer" (click)="delete.emit()">
-          <mat-icon class="!text-red-500">close</mat-icon>
+          <mat-icon class="text-red-500!">close</mat-icon>
         </div>
       </div>
       <hr class="bg-gray-600 h-0.5 border-0">
@@ -29,7 +29,7 @@
                 [placeholder]="'module-1'"
                 [formControlName]="'id'"
               />
-              <mat-icon class="!text-white" matTooltip="String">abc</mat-icon>
+              <mat-icon class="text-white!" matTooltip="String">abc</mat-icon>
               @if (!formGroup.controls['id'].valid) {
                 <!-- TODO(jwetzell): better error displaying -->
                 <div class="ml-2 text-red-500">{{ formGroup.controls['id'].errors | json }}</div>
