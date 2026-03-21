@@ -33,12 +33,21 @@ export class ConfigService {
 
   private http = inject(HttpClient);
   private settingsService = inject(SettingsService);
+  private eventsService = inject(EventsService);
   
   constructor(private schemaService: SchemaService) {
-    this.loadConfig();
     effect(() => {
       console.log('config state changed', this.currentlyShownConfig());
     });
+
+    effect(() =>{
+      switch (this.eventsService.status()) {
+        case 'open':
+          console.log('Websocket connection opened, reloading config');
+          this.loadConfig();
+          break;
+      }
+    })
   }
 
   loadConfig() {
