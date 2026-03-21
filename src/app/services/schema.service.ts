@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -14,6 +14,7 @@ import { sortBy } from 'lodash-es';
 import { Config, ModuleConfig, ProcessorConfig, RouteConfig } from '../models/config.models';
 import { ObjectInfo, ParamsFormInfo } from '../models/form.model';
 import { SettingsService } from './settings.service';
+import { EventsService } from './events.service';
 
 @Injectable({
   providedIn: 'root',
@@ -40,31 +41,37 @@ export class SchemaService {
 
   errorPaths: string[] = [];
 
-  constructor(
-    private http: HttpClient,
-    private settingsService: SettingsService,
-  ) {
-    effect(() => {
-      if (this.settingsService.configSchemaUrl()) {
-        this.loadConfigSchema();
-      }
-    });
+  private settingsService = inject(SettingsService);
+  private http = inject(HttpClient);
+  private eventsService = inject(EventsService);
 
+  constructor() {
     effect(() => {
-      if (this.settingsService.modulesSchemaUrl()) {
-        this.loadModulesSchema();
-      }
-    });
-
-    effect(() => {
-      if (this.settingsService.routesSchemaUrl()) {
-        this.loadRoutesSchema();
-      }
-    });
-
-    effect(() => {
-      if (this.settingsService.processorsSchemaUrl()) {
-        this.loadProcessorsSchema();
+      switch (this.eventsService.status()) {
+        case 'open':
+          if (this.settingsService.configSchemaUrl()) {
+            this.loadConfigSchema();
+          }
+          if (this.settingsService.modulesSchemaUrl()) {
+            this.loadModulesSchema();
+          }
+          if (this.settingsService.routesSchemaUrl()) {
+            this.loadRoutesSchema();
+          }
+          if (this.settingsService.processorsSchemaUrl()) {
+            this.loadProcessorsSchema();
+          }
+          break;
+        case 'closed':
+          this.ajv.removeSchema(this.configSchema()!);
+          this.ajv.removeSchema(this.modulesSchema()!);
+          this.ajv.removeSchema(this.routesSchema()!);
+          this.ajv.removeSchema(this.processorsSchema()!);
+          this.configSchema.set(undefined);
+          this.modulesSchema.set(undefined);
+          this.routesSchema.set(undefined);
+          this.processorsSchema.set(undefined);
+          break;
       }
     });
 
@@ -88,9 +95,7 @@ export class SchemaService {
 
   loadModulesSchema() {
     this.http
-      .get<
-        JSONSchemaType<ModuleConfig[]>
-      >(this.settingsService.modulesSchemaUrl().toString())
+      .get<JSONSchemaType<ModuleConfig[]>>(this.settingsService.modulesSchemaUrl().toString())
       .subscribe((schema) => {
         this.setModulesSchema(schema);
       });
@@ -106,9 +111,7 @@ export class SchemaService {
 
   loadProcessorsSchema() {
     this.http
-      .get<
-        JSONSchemaType<ProcessorConfig[]>
-      >(this.settingsService.processorsSchemaUrl().toString())
+      .get<JSONSchemaType<ProcessorConfig[]>>(this.settingsService.processorsSchemaUrl().toString())
       .subscribe((schema) => {
         this.setProcessorsSchema(schema);
       });
@@ -328,7 +331,6 @@ export class SchemaService {
                 }
               }
 
-
               paramsFormInfo.paramsInfo[paramKey] = {
                 key: paramKey,
                 display: paramSchema.title ? paramSchema.title : paramKey,
@@ -337,7 +339,7 @@ export class SchemaService {
                 isConst: !!paramSchema.const,
                 schema: paramSchema,
                 placeholder: '',
-                default: paramSchema.default ? paramSchema.default : undefined
+                default: paramSchema.default ? paramSchema.default : undefined,
               };
 
               if (paramSchema.examples && paramSchema.examples.length > 0) {
