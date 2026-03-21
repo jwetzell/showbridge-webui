@@ -4,7 +4,6 @@ import { computed, Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class SettingsService {
-  public isDummySite: boolean = false;
   public configPath = signal('/api/v1/config');
   public configSchemaPath = signal('/schema/config.schema.json');
   public modulesSchemaPath = signal('/schema/modules.schema.json');
