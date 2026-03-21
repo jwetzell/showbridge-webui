@@ -19,7 +19,7 @@
     <div class="text-white">Modules</div>
   </div>
   <div class="flex-grow overflow-x-hidden overflow-y-auto gap-1.5">
-    @for (module of modules(); track module; let i = $index) {
+    @for (module of modules(); track module.id; let i = $index) {
       <div class="m-2">
         <app-module
           [path]="`modules/${i}`"

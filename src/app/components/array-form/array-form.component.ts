@@ -100,11 +100,7 @@ export class ArrayFormComponent implements OnInit {
       );
     }
   }
-
-  trackByIndex(index: number, obj: any): any {
-    return index;
-  }
-
+  
   // NOTE(jwetzel): this is only needed for object item types
   updateItem(index: number, value: any) {
     if (this.arrayValue) {

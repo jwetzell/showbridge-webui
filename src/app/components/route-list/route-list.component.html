@@ -10,7 +10,7 @@
     <div class="text-white">Routes</div>
   </div>
   <div class="flex-grow overflow-x-hidden overflow-y-auto gap-1.5">
-    @for (route of routes(); track route; let i = $index) {
+    @for (route of routes(); track $index; let i = $index) {
       <div class="m-2">
         <app-route 
           [path]="`routes/${i}`"

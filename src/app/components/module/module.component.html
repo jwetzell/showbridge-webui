@@ -50,7 +50,7 @@
             <mat-icon>error</mat-icon>
             <span class="ml-1">Module Errors</span>
           </div>
-          @for (error of moduleConfigErrors(); track error) {
+          @for (error of moduleConfigErrors(); track $index) {
             <div class="ml-4 mb-1 text-white">
               {{ error.error }}
             </div>

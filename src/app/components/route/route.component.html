@@ -59,7 +59,7 @@
         </div>
         @if (processors() !== undefined && processors()!.length > 0) {
             <div class="border-2 border-gray-500 m-2">
-            @for (processor of processors(); track processor; let i = $index) {
+            @for (processor of processors(); track $index; let i = $index) {
               <div cdkDrag>
                 <app-processor
                   [path]="path() + '/processors/' + i"
@@ -80,7 +80,7 @@
             <mat-icon>error</mat-icon>
             <span class="ml-1">Route Errors</span>
           </div>
-          @for (error of routeConfigErrors(); track error) {
+          @for (error of routeConfigErrors(); track error.index) {
             <div class="ml-4 mb-1 text-white">
               {{ error.error }}
             </div>

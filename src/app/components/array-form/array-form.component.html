@@ -1,7 +1,7 @@
 @if (paramFormControl && paramInfo?.schema) {
   @if (arrayValue) {
     <div cdkDropList (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="arrayValue">
-      @for (item of arrayValue; track trackByIndex(i, item); let i = $index) {
+      @for (item of arrayValue; track $index; let i = $index) {
         <div cdkDrag class="flex my-2 mr-2 items-center">
           <label for="item-{{ i }}" class="text-white mr-1 hover:cursor-move" cdkDragHandle
             >{{ i }}:</label
