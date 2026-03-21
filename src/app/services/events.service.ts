@@ -21,6 +21,9 @@ export class EventsService {
   constructor() {
     effect(() => {
       console.log('Websocket URL changed:', this.settingsService.wsUrl());
+      if (this.socket) {
+        this.socket.close();
+      }
       this.reload();
     });
   }
