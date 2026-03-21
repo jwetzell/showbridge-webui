@@ -34,15 +34,19 @@
       }
     </mat-toolbar>
   </div>
-  @if (schemaService.schemasLoaded()) {
-    <div class="flex-grow overflow-hidden flex">
-      <div class="flex-grow overflow-y-auto">
+  @if (eventsService.status() === 'open' &&  schemaService.schemasLoaded()) {
+    <div class="grow overflow-hidden flex m-2">
+      <div class="grow overflow-y-auto">
         <app-module-list [modules]="config()?.modules" (modulesChange)="modulesUpdated($event)"></app-module-list>
         <app-route-list [routes]="config()?.routes" [moduleIds]="moduleIds()" (routesChange)="routesUpdated($event)"></app-route-list>
       </div>
       <div class="w-1/2 overflow-y-hidden">
         <app-config-preview [config]="config()"></app-config-preview>
       </div>
+    </div>
+  } @else {
+    <div class="grow flex items-center justify-center">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
   }
 </div>
