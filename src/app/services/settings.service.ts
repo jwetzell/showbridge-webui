@@ -6,10 +6,10 @@ import { computed, Injectable, signal } from '@angular/core';
 export class SettingsService {
   public isDummySite: boolean = false;
   public configPath = signal('/api/v1/config');
-  public configSchemaPath = signal('/schema/config');
-  public modulesSchemaPath = signal('/schema/modules');
-  public routesSchemaPath = signal('/schema/routes');
-  public processorsSchemaPath = signal('/schema/processors');
+  public configSchemaPath = signal('/schema/config.schema.json');
+  public modulesSchemaPath = signal('/schema/modules.schema.json');
+  public routesSchemaPath = signal('/schema/routes.schema.json');
+  public processorsSchemaPath = signal('/schema/processors.schema.json');
   public wsPath = signal('/ws');
   public baseUrl = signal('http://localhost:8080');
 
