@@ -34,6 +34,10 @@ export class EventsService {
 
       this.socket.onclose = () => {
         this.status.set('closed');
+        // TODO(jwetzell): this could probably be better done
+        setTimeout(() => {
+          this.reload();
+        }, 2000);
       };
 
       this.socket.onerror = (error) => {
