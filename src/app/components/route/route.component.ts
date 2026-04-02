@@ -120,7 +120,7 @@ export class RouteComponent {
         route.processors?.push(processorTemplate);
         return {
           ...route,
-          processors: route.processors,
+          processors: [...route.processors],
         };
       }
       return route;
@@ -143,7 +143,7 @@ export class RouteComponent {
         }
         return {
           ...route,
-          processors: route.processors,
+          processors: [...route.processors],
         };
       }
       return route;
@@ -156,7 +156,7 @@ export class RouteComponent {
         route?.processors?.splice(index, 1);
         return {
           ...route,
-          processors: route.processors,
+          processors: [...route.processors],
         };
       }
       return route;
