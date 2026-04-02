@@ -11,6 +11,7 @@ export type ConfigState = {
 };
 
 export type ApiConfig = {
+  enabled: boolean;
   port: number;
 };
 

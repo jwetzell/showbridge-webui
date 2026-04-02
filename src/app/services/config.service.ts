@@ -107,7 +107,10 @@ export class ConfigService {
   setEmptyConfig() {
     console.log('Setting empty config');
     this.updateCurrentlyShownConfig({
-      api: { port: 8080 },
+      api: { 
+        enabled: true,
+        port: 8080 
+      },
       modules: [],
       routes: [],
     });
