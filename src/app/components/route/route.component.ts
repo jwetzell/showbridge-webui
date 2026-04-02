@@ -114,13 +114,12 @@ export class RouteComponent {
     const processorTemplate = this.schemaService.getSkeletonForProcessor(processorType);
     this.route.update((route) => {
       if (route) {
-        if (!route.processors) {
-          route.processors = [];
-        }
-        route.processors?.push(processorTemplate);
+        const processors = route.processors || [];
+  
+        processors.push(processorTemplate);
         return {
           ...route,
-          processors: [...route.processors],
+          processors: [...processors],
         };
       }
       return route;

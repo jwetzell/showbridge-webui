@@ -49,6 +49,9 @@ export class RouteListComponent {
     this.routes.update((routes) => {
       if (routes) {
         routes[index].input = route.input;
+        if (route.processors) {
+          routes[index].processors = [...route.processors];
+        }
         return [...routes];
       }
       return routes;
