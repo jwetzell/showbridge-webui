@@ -11,7 +11,7 @@ import { cloneDeep, has, isEqual } from 'lodash-es';
 import { Subscription } from 'rxjs';
 import { ParamInfo, ParamsFormInfo } from '../../models/form.model';
 import { SchemaService } from '../../services/schema.service';
-import { cleanParams, schemaToParamsFormInfo } from '../../utils/params.utils';
+import { cleanParams, schemaToParamsFormInfo } from '../../utils/params';
 import { ArrayFormComponent } from '../array-form/array-form.component';
 @Component({
   selector: 'app-params-form',
@@ -39,7 +39,6 @@ export class ParamsFormComponent implements OnChanges, OnDestroy {
   formGroupSubscription?: Subscription;
 
   ngOnDestroy(): void {
-    console.log('params-form destroyed')
     if (this.formGroupSubscription) {
       this.formGroupSubscription.unsubscribe()
     }
@@ -49,7 +48,6 @@ export class ParamsFormComponent implements OnChanges, OnDestroy {
     paramsSchema: SomeJSONSchema
     data: any
   }>): void {
-    console.log(changes)
     if (changes.paramsSchema) {
       if (changes.paramsSchema.previousValue === undefined && changes.paramsSchema.currentValue !== undefined) {
         if (this.paramsSchema) {

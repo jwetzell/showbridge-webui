@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ParamInfo } from '../../models/form.model';
 import { ListsService } from '../../services/lists.service';
 import { SchemaService } from '../../services/schema.service';
-import { parseStringToArray } from '../../utils/params.utils';
+import { parseStringToArray } from '../../utils/params';
 
 @Component({
   selector: 'app-array-form',
