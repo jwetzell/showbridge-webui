@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ParamInfo } from '../../models/form.model';
 import { ListsService } from '../../services/lists.service';
 import { SchemaService } from '../../services/schema.service';
+import { parseStringToArray } from '../../utils/params.utils';
 
 @Component({
   selector: 'app-array-form',
@@ -30,7 +31,7 @@ export class ArrayFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.paramFormControl && this.paramInfo?.schema) {
       if (!Array.isArray(this.paramFormControl.value)) {
-        this.arrayValue = this.schemaService.parseStringToArray(
+        this.arrayValue = parseStringToArray(
           this.paramFormControl.value,
           this.paramInfo.schema,
         );

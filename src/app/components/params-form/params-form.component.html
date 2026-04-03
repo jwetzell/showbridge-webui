@@ -1,15 +1,4 @@
 @if (paramsSchema && paramsFormInfo) {
-  @if (paramsOptions.length > 1) {
-    <mat-tab-group
-      dynamicHeight
-      [selectedIndex]="paramsOptionsSelectedIndex"
-      (selectedTabChange)="paramsOptionsTabSelected($event)"
-    >
-      @for (paramsOption of paramsOptions; track paramsOption) {
-        <mat-tab [label]="paramsOption.display"></mat-tab>
-      }
-    </mat-tab-group>
-  }
   <form [formGroup]="paramsFormInfo.formGroup">
     <div class="flex flex-col">
       @for (key of paramKeys(); track key) {
