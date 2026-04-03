@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "e2e": "ng e2e",
     "format:write": "prettier ./ --write"
   },
   "prettier": {
@@ -46,10 +47,12 @@
     "@angular/cli": "21.2.5",
     "@angular/compiler-cli": "21.2.6",
     "@angular/material": "21.2.4",
+    "@playwright/test": "1.59.1",
     "@tailwindcss/postcss": "4.2.2",
     "@types/js-yaml": "4.0.9",
     "@types/lodash-es": "4.17.12",
     "jsdom": "29.0.1",
+    "playwright-ng-schematics": "^21.0.9",
     "postcss": "8.5.8",
     "prettier": "3.8.1",
     "tailwindcss": "4.2.2",

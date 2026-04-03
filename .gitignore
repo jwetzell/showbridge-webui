@@ -44,3 +44,7 @@ __screenshots__/
 Thumbs.db
 
 *.schema.json
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
