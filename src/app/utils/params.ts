@@ -51,7 +51,7 @@ export function schemaToParamsFormInfo(schema: SomeJSONSchema): ParamsFormInfo {
               key: paramKey,
               display: paramSchema.title ? paramSchema.title : paramKey,
               type: paramSchema.type,
-              hint: paramSchema.description,
+              hint: paramSchema.description ? paramSchema.description : undefined,
               isConst: !!paramSchema.const,
               schema: paramSchema,
               placeholder: '',
