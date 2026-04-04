@@ -11,10 +11,10 @@ import {
 import { Ajv2020, JSONSchemaType } from 'ajv/dist/2020';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 import { sortBy } from 'lodash-es';
-import { Config, ModuleConfig, ProcessorConfig, RouteConfig } from '../models/config.models';
-import { ObjectInfo, ParamsFormInfo } from '../models/form.model';
-import { SettingsService } from './settings.service';
-import { EventsService } from './events.service';
+import { Config, ModuleConfig, ProcessorConfig, RouteConfig } from '../models/config';
+import { ObjectInfo, ParamsFormInfo } from '../models/form';
+import { SettingsService } from './settings';
+import { EventsService } from './events';
 
 @Injectable({
   providedIn: 'root',

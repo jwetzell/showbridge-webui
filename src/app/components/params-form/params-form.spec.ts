@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ParamsFormComponent } from './params-form.component';
-import { SchemaService } from '../../services/schema.service';
+import { ParamsFormComponent } from './params-form';
+import { SchemaService } from '../../services/schema';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 
 describe('ParamsForm', ()=>{

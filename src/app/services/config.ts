@@ -1,10 +1,10 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { cloneDeep, isEqual } from 'lodash-es';
-import { Config, ConfigError, ModuleError, RouteError } from '../models/config.models';
-import { SchemaService } from './schema.service';
+import { Config, ConfigError, ModuleError, RouteError } from '../models/config';
+import { SchemaService } from './schema';
 import { HttpClient } from '@angular/common/http';
-import { SettingsService } from './settings.service';
-import { EventsService } from './events.service';
+import { SettingsService } from './settings';
+import { EventsService } from './events';
 @Injectable({
   providedIn: 'root',
 })

@@ -1,6 +1,6 @@
 import { FormGroup, ValidatorFn, Validators, FormControl, AbstractControl, ValidationErrors } from "@angular/forms";
 import { SomeJSONSchema } from "ajv/dist/types/json-schema";
-import { ParamsFormInfo } from "../models/form.model";
+import { ParamsFormInfo } from "../models/form";
 
 export function schemaToParamsFormInfo(schema: SomeJSONSchema): ParamsFormInfo {
   const paramsFormInfo: ParamsFormInfo = {

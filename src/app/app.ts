@@ -7,15 +7,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
 import * as yaml from 'js-yaml';
-import { Config, ModuleConfig, RouteConfig } from './models/config.models';
-import { ConfigService } from './services/config.service';
-import { EventsService } from './services/events.service';
-import { SchemaService } from './services/schema.service';
-import { SettingsService } from './services/settings.service';
+import { Config, ModuleConfig, RouteConfig } from './models/config';
+import { ConfigService } from './services/config';
+import { EventsService } from './services/events';
+import { SchemaService } from './services/schema';
+import { SettingsService } from './services/settings';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ModuleListComponent } from './components/module-list/module-list.component';
-import { RouteListComponent } from './components/route-list/route-list.component';
-import { ConfigPreviewComponent } from './components/config-preview/config-preview.component';
+import { ModuleListComponent } from './components/module-list/module-list';
+import { RouteListComponent } from './components/route-list/route-list';
+import { ConfigPreviewComponent } from './components/config-preview/config-preview';
 
 @Component({
   selector: 'app-root',
