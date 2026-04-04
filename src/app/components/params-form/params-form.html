@@ -1,4 +1,4 @@
-@if (paramsSchema && paramsFormInfo) {
+@if (paramsSchema() && paramsFormInfo) {
   <form [formGroup]="paramsFormInfo.formGroup">
     <div class="flex flex-col">
       @for (key of paramKeys(); track key) {

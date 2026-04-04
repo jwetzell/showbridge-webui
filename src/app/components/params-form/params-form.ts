@@ -1,5 +1,11 @@
 import { JsonPipe } from '@angular/common';
-import { Component, inject, Input, OnChanges, OnDestroy, OnInit, output, SimpleChange, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  effect,
+  input,
+  OnDestroy,
+  output
+} from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,10 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
-import { cloneDeep, has, isEqual } from 'lodash-es';
+import { cloneDeep, has } from 'lodash-es';
 import { Subscription } from 'rxjs';
 import { ParamInfo, ParamsFormInfo } from '../../models/form';
-import { SchemaService } from '../../services/schema';
 import { cleanParams, schemaToParamsFormInfo } from '../../utils/params';
 import { ArrayFormComponent } from '../array-form/array-form';
 @Component({
@@ -29,48 +34,41 @@ import { ArrayFormComponent } from '../array-form/array-form';
   ],
   standalone: true,
 })
-export class ParamsFormComponent implements OnChanges, OnDestroy {
-  @Input() paramsSchema?: SomeJSONSchema;
-  @Input() data?: any;
+export class ParamsFormComponent implements OnDestroy {
+  data = input<any>();
+  paramsSchema = input<SomeJSONSchema>();
   updated = output<any>();
 
   paramsFormInfo?: ParamsFormInfo;
 
   formGroupSubscription?: Subscription;
-
-  ngOnDestroy(): void {
-    if (this.formGroupSubscription) {
-      this.formGroupSubscription.unsubscribe()
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges<{
-    paramsSchema: SomeJSONSchema
-    data: any
-  }>): void {
-    if (changes.paramsSchema) {
-      if (changes.paramsSchema.previousValue === undefined && changes.paramsSchema.currentValue !== undefined) {
-        if (this.paramsSchema) {
-          if (this.paramsSchema.properties) {
-            this.paramsFormInfo = schemaToParamsFormInfo(this.paramsSchema);
-            if (this.formGroupSubscription === undefined) {
-              this.formGroupSubscription = this.paramsFormInfo?.formGroup.valueChanges.subscribe((value) => {
+  constructor() {
+    // TODO(jwetzell): do this in a bit more of a standard signal way
+    effect(() => {
+      const schema = this.paramsSchema();
+      if (schema !== undefined) {
+        if (schema.properties) {
+          this.paramsFormInfo = schemaToParamsFormInfo(schema);
+          if (this.formGroupSubscription === undefined) {
+            this.formGroupSubscription = this.paramsFormInfo?.formGroup.valueChanges.subscribe(
+              () => {
                 this.formUpdated();
-              });
-            }
-          } else {
-            console.error('params is not a singular object');
-            console.error(this.paramsSchema);
+              },
+            );
           }
+        } else {
+          console.error('params is not a singular object');
+          console.error(schema);
         }
       }
-    }
+    });
 
-    if (changes.data) {
-      if (!isEqual(changes.data.currentValue, changes.data.previousValue)) {
+    effect(() => {
+      const dataToPatch = cloneDeep(this.data());
+      if (this.paramsSchema() && this.paramsFormInfo && dataToPatch) {
         if (this.paramsFormInfo?.formGroup !== undefined) {
           // NOTE(jwetzell): prepare data for form patching
-          const dataToPatch = cloneDeep(this.data);
+          // const dataToPatch = cloneDeep(this.data);
           Object.entries(this.paramsFormInfo.paramsInfo).forEach(([paramKey, paramInfo]) => {
             if (has(dataToPatch, paramKey)) {
               switch (paramInfo.type) {
@@ -98,15 +96,19 @@ export class ParamsFormComponent implements OnChanges, OnDestroy {
           this.paramsFormInfo.formGroup.patchValue(dataToPatch);
         }
       }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.formGroupSubscription) {
+      this.formGroupSubscription.unsubscribe();
     }
   }
 
   formUpdated() {
-    if (this.paramsSchema) {
-      const params = cleanParams(
-        this.paramsSchema,
-        this.paramsFormInfo?.formGroup.value,
-      );
+    const paramsSchema = this.paramsSchema();
+    if (paramsSchema) {
+      const params = cleanParams(paramsSchema, this.paramsFormInfo?.formGroup.value);
       this.updated.emit(params);
     } else {
       console.error('params-form: no paramsSchema loaded');
@@ -125,14 +127,10 @@ export class ParamsFormComponent implements OnChanges, OnDestroy {
   }
 
   getParamValue(key: string) {
-    if (this.paramsSchema) {
-      const params = cleanParams(
-        this.paramsSchema,
-        this.paramsFormInfo?.formGroup.value,
-      );
+    const paramsSchema = this.paramsSchema();
+    if (paramsSchema) {
+      const params = cleanParams(paramsSchema, this.paramsFormInfo?.formGroup.value);
       return params[key];
     }
   }
-
-
 }
