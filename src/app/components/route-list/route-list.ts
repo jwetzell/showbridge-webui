@@ -1,8 +1,8 @@
 import { Component, inject, input, model } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModuleConfig, RouteConfig } from '../../models/config.models';
-import { SchemaService } from '../../services/schema.service';
-import { RouteComponent } from '../route/route.component';
+import { ModuleConfig, RouteConfig } from '../../models/config';
+import { SchemaService } from '../../services/schema';
+import { RouteComponent } from '../route/route';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -17,8 +17,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatTooltipModule,
   ],
-  templateUrl: './route-list.component.html',
-  styleUrl: './route-list.component.css',
+  templateUrl: './route-list.html',
+  styleUrl: './route-list.css',
 })
 export class RouteListComponent {
 

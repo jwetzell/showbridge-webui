@@ -3,15 +3,15 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { ProcessorConfig, RouteConfig } from '../../models/config.models';
-import { SchemaService } from '../../services/schema.service';
+import { ProcessorConfig, RouteConfig } from '../../models/config';
+import { SchemaService } from '../../services/schema';
 import { JsonPipe } from '@angular/common';
-import { ProcessorComponent } from '../processor/processor.component';
+import { ProcessorComponent } from '../processor/processor';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { EventsService } from '../../services/events.service';
+import { EventsService } from '../../services/events';
 import { debounceTime, tap } from 'rxjs';
-import { ConfigService } from '../../services/config.service';
+import { ConfigService } from '../../services/config';
 
 @Component({
   selector: 'app-route',
@@ -24,8 +24,8 @@ import { ConfigService } from '../../services/config.service';
     ProcessorComponent,
     MatTooltipModule,
   ],
-  templateUrl: './route.component.html',
-  styleUrl: './route.component.css',
+  templateUrl: './route.html',
+  styleUrl: './route.css',
 })
 export class RouteComponent {
   path = input<string>('');

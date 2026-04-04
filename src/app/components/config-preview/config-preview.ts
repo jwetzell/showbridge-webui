@@ -1,7 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import * as yaml from 'js-yaml';
-import { Config } from '../../models/config.models';
+import { Config } from '../../models/config';
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -13,8 +13,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatTooltipModule
 ],
-  templateUrl: './config-preview.component.html',
-  styleUrl: './config-preview.component.css',
+  templateUrl: './config-preview.html',
+  styleUrl: './config-preview.css',
 })
 export class ConfigPreviewComponent {
   config = input<Config | undefined>();

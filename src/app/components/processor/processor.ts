@@ -1,15 +1,15 @@
 import { Component, computed, inject, input, model, output, signal } from '@angular/core';
-import { ProcessorConfig } from '../../models/config.models';
-import { SchemaService } from '../../services/schema.service';
+import { ProcessorConfig } from '../../models/config';
+import { SchemaService } from '../../services/schema';
 import { MatIconModule } from '@angular/material/icon';
-import { ParamsFormComponent } from '../params-form/params-form.component';
+import { ParamsFormComponent } from '../params-form/params-form';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-processor',
   imports: [MatIconModule, ParamsFormComponent, ReactiveFormsModule],
-  templateUrl: './processor.component.html',
-  styleUrl: './processor.component.css',
+  templateUrl: './processor.html',
+  styleUrl: './processor.css',
 })
 export class ProcessorComponent {
   path = input<string>('');

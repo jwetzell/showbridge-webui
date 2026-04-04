@@ -3,14 +3,14 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { ModuleConfig } from '../../models/config.models';
-import { SchemaService } from '../../services/schema.service';
-import { ParamsFormComponent } from '../params-form/params-form.component';
+import { ModuleConfig } from '../../models/config';
+import { SchemaService } from '../../services/schema';
+import { ParamsFormComponent } from '../params-form/params-form';
 import { JsonPipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { EventsService } from '../../services/events.service';
+import { EventsService } from '../../services/events';
 import { tap, debounceTime } from 'rxjs';
-import { ConfigService } from '../../services/config.service';
+import { ConfigService } from '../../services/config';
 
 @Component({
   selector: 'app-module',
@@ -23,8 +23,8 @@ import { ConfigService } from '../../services/config.service';
     MatTooltipModule,
     JsonPipe,
   ],
-  templateUrl: './module.component.html',
-  styleUrl: './module.component.css',
+  templateUrl: './module.html',
+  styleUrl: './module.css',
 })
 export class ModuleComponent {
   path = input<string>('');

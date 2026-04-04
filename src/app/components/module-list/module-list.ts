@@ -1,8 +1,8 @@
 import { Component, inject, model } from '@angular/core';
-import { ModuleComponent } from '../module/module.component';
+import { ModuleComponent } from '../module/module';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModuleConfig } from '../../models/config.models';
-import { SchemaService } from '../../services/schema.service';
+import { ModuleConfig } from '../../models/config';
+import { SchemaService } from '../../services/schema';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -17,8 +17,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule,
     ModuleComponent
   ],
-  templateUrl: './module-list.component.html',
-  styleUrl: './module-list.component.css',
+  templateUrl: './module-list.html',
+  styleUrl: './module-list.css',
 })
 export class ModuleListComponent {
   modules = model<ModuleConfig[]>();

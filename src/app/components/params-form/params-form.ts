@@ -9,14 +9,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 import { cloneDeep, has, isEqual } from 'lodash-es';
 import { Subscription } from 'rxjs';
-import { ParamInfo, ParamsFormInfo } from '../../models/form.model';
-import { SchemaService } from '../../services/schema.service';
+import { ParamInfo, ParamsFormInfo } from '../../models/form';
+import { SchemaService } from '../../services/schema';
 import { cleanParams, schemaToParamsFormInfo } from '../../utils/params';
-import { ArrayFormComponent } from '../array-form/array-form.component';
+import { ArrayFormComponent } from '../array-form/array-form';
 @Component({
   selector: 'app-params-form',
-  templateUrl: './params-form.component.html',
-  styleUrls: ['./params-form.component.css'],
+  templateUrl: './params-form.html',
+  styleUrls: ['./params-form.css'],
   imports: [
     MatIconModule,
     MatTooltipModule,

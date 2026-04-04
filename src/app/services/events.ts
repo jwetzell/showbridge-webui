@@ -4,9 +4,9 @@ import {
   OutputEventData,
   RouteEventData,
   RouterEvent,
-} from '../models/events.models';
+} from '../models/events';
 import { filter, Subject } from 'rxjs';
-import { SettingsService } from './settings.service';
+import { SettingsService } from './settings';
 @Injectable({
   providedIn: 'root',
 })

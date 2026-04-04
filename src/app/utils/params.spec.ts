@@ -1,5 +1,5 @@
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
-import { ParamsFormInfo } from '../models/form.model';
+import { ParamsFormInfo } from '../models/form';
 import { FormGroup, FormControl } from '@angular/forms';
 import { schemaToParamsFormInfo } from './params';
 

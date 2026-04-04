@@ -2,15 +2,15 @@ import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { ParamInfo } from '../../models/form.model';
-import { ListsService } from '../../services/lists.service';
-import { SchemaService } from '../../services/schema.service';
+import { ParamInfo } from '../../models/form';
+import { ListsService } from '../../services/lists';
+import { SchemaService } from '../../services/schema';
 import { parseStringToArray } from '../../utils/params';
 
 @Component({
   selector: 'app-array-form',
-  templateUrl: './array-form.component.html',
-  styleUrl: './array-form.component.css',
+  templateUrl: './array-form.html',
+  styleUrl: './array-form.css',
   imports: [MatIconModule, FormsModule, CdkDrag, CdkDropList],
   standalone: true,
 })
