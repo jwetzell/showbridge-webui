@@ -18,7 +18,7 @@ export type ParamsInfo = {
 export type ParamInfo = {
   key: string;
   display: string;
-  hint: string;
+  hint?: string;
   type: string;
   placeholder?: string;
   options?: string[];
