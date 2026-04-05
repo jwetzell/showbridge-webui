@@ -2,7 +2,7 @@ name: Check @showbridge/webui builds
 on:
   pull_request:
     branches:
-      - main
+      - release
       - dev
 jobs:
   build-webui:
