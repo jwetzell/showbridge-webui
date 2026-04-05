@@ -3,7 +3,7 @@ on:
   pull_request:
     branches:
       - release
-      - dev
+      - main
 jobs:
   build-webui:
     runs-on: ubuntu-latest
