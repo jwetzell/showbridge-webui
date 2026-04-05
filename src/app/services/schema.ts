@@ -286,8 +286,6 @@ export class SchemaService {
     return 0;
   }
 
-  
-
   cleanArray(values: any[], itemSchema: SomeJSONSchema) {
     if (Array.isArray(values)) {
       switch (itemSchema.type) {

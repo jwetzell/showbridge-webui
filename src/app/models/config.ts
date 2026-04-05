@@ -1,5 +1,5 @@
 export type Config = {
-  api: ApiConfig
+  api: ApiConfig;
   modules: ModuleConfig[];
   routes: RouteConfig[];
 };
@@ -31,20 +31,19 @@ export type ProcessorConfig = {
   params?: Record<string, any>;
 };
 
-
 export type ModuleError = {
   index: number;
   config: ModuleConfig;
   error: string;
-}
+};
 
 export type RouteError = {
   index: number;
   config: RouteConfig;
   error: string;
-}
+};
 
 export type ConfigError = {
   moduleErrors?: ModuleError[];
   routeErrors?: RouteError[];
-}
+};

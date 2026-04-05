@@ -34,20 +34,20 @@ export class ConfigService {
   private http = inject(HttpClient);
   private settingsService = inject(SettingsService);
   private eventsService = inject(EventsService);
-  
+
   constructor(private schemaService: SchemaService) {
     effect(() => {
       console.log('config state changed', this.currentlyShownConfig());
     });
 
-    effect(() =>{
+    effect(() => {
       switch (this.eventsService.status()) {
         case 'open':
           console.log('Websocket connection opened, reloading config');
           this.loadConfig();
           break;
       }
-    })
+    });
   }
 
   loadConfig() {
@@ -107,9 +107,9 @@ export class ConfigService {
   setEmptyConfig() {
     console.log('Setting empty config');
     this.updateCurrentlyShownConfig({
-      api: { 
+      api: {
         enabled: true,
-        port: 8080 
+        port: 8080,
       },
       modules: [],
       routes: [],

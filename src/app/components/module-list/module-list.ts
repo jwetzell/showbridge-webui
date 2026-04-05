@@ -10,13 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-module-list',
-  imports: [
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-    ModuleComponent
-  ],
+  imports: [MatMenuModule, MatIconModule, MatButtonModule, MatTooltipModule, ModuleComponent],
   templateUrl: './module-list.html',
   styleUrl: './module-list.css',
 })

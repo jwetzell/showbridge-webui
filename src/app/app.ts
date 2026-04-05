@@ -28,13 +28,12 @@ import { ConfigPreviewComponent } from './components/config-preview/config-previ
     MatTooltipModule,
     ModuleListComponent,
     RouteListComponent,
-    ConfigPreviewComponent
-],
+    ConfigPreviewComponent,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-
   config = computed<Config | undefined>(() => this.configService.currentlyShownConfig());
 
   modules = computed(() => this.config()?.modules ?? []);
@@ -47,7 +46,7 @@ export class App {
     }
     return [];
   });
-  
+
   public schemaService = inject(SchemaService);
   public configService = inject(ConfigService);
 

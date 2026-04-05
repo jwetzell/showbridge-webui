@@ -10,24 +10,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-route-list',
-  imports: [
-    RouteComponent,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-  ],
+  imports: [RouteComponent, MatMenuModule, MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './route-list.html',
   styleUrl: './route-list.css',
 })
 export class RouteListComponent {
-
   routes = model<RouteConfig[]>();
   moduleIds = input<string[]>();
   public schemaService = inject(SchemaService);
 
   private snackBar = inject(MatSnackBar);
-  
+
   deleteRoute(index: number) {
     this.routes.update((routes) => {
       if (routes) {

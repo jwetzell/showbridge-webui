@@ -31,10 +31,7 @@ export class ArrayFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.paramFormControl && this.paramInfo?.schema) {
       if (!Array.isArray(this.paramFormControl.value)) {
-        this.arrayValue = parseStringToArray(
-          this.paramFormControl.value,
-          this.paramInfo.schema,
-        );
+        this.arrayValue = parseStringToArray(this.paramFormControl.value, this.paramInfo.schema);
       } else {
         this.arrayValue = this.paramFormControl.value;
       }
@@ -101,7 +98,7 @@ export class ArrayFormComponent implements OnInit {
       );
     }
   }
-  
+
   // NOTE(jwetzel): this is only needed for object item types
   updateItem(index: number, value: any) {
     if (this.arrayValue) {

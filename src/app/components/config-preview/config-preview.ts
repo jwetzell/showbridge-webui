@@ -2,17 +2,13 @@ import { JsonPipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import * as yaml from 'js-yaml';
 import { Config } from '../../models/config';
-import { MatIcon, MatIconModule } from "@angular/material/icon";
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-config-preview',
-  imports: [
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule
-],
+  imports: [MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './config-preview.html',
   styleUrl: './config-preview.css',
 })

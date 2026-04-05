@@ -91,14 +91,17 @@ export class RouteComponent {
     });
 
     if (this.index() !== undefined) {
-      this.eventsService.getRouteEventsForIndex(this.index()!).pipe(
-        tap((routeEvent)=>{
-          this.indicatorColor.set(routeEvent.error ? 'red' : 'greenyellow');
-        }),
-        debounceTime(100)
-      ).subscribe((routeEvent) => {
-        this.indicatorColor.set('gray')
-      })
+      this.eventsService
+        .getRouteEventsForIndex(this.index()!)
+        .pipe(
+          tap((routeEvent) => {
+            this.indicatorColor.set(routeEvent.error ? 'red' : 'greenyellow');
+          }),
+          debounceTime(100),
+        )
+        .subscribe((routeEvent) => {
+          this.indicatorColor.set('gray');
+        });
     }
   }
 
@@ -115,7 +118,7 @@ export class RouteComponent {
     this.route.update((route) => {
       if (route) {
         const processors = route.processors || [];
-  
+
         processors.push(processorTemplate);
         return {
           ...route,

@@ -7,14 +7,19 @@
   >
     <div class="flex items-center justify-end">
       <div class="flex items-center">
-          <mat-icon [style.color]="indicatorColor()" matTooltip="Route Indicator">chevron_right</mat-icon>
+        <mat-icon [style.color]="indicatorColor()" matTooltip="Route Indicator"
+          >chevron_right</mat-icon
+        >
       </div>
       <div class="grow text-left ml-2 text-white">Route {{ index() }}</div>
-      <div class="flex items-center justify-center hover:bg-gray-700 hover:cursor-pointer" (click)="delete.emit()">
+      <div
+        class="flex items-center justify-center hover:bg-gray-700 hover:cursor-pointer"
+        (click)="delete.emit()"
+      >
         <mat-icon class="text-red-500!">close</mat-icon>
       </div>
     </div>
-    <hr class="bg-gray-600 h-0.5 border-0">
+    <hr class="bg-gray-600 h-0.5 border-0" />
     <div>
       <form [formGroup]="formGroup">
         <div class="m-2">
@@ -58,7 +63,7 @@
           <div class="text-md text-white text-center">Processors</div>
         </div>
         @if (processors() !== undefined && processors()!.length > 0) {
-            <div class="border-2 border-gray-500 m-2">
+          <div class="border-2 border-gray-500 m-2">
             @for (processor of processors(); track $index; let i = $index) {
               <div cdkDrag>
                 <app-processor
@@ -70,7 +75,7 @@
               </div>
             }
           </div>
-          }
+        }
       </div>
     </div>
     <div>

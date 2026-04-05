@@ -1,6 +1,13 @@
-import { FormGroup, ValidatorFn, Validators, FormControl, AbstractControl, ValidationErrors } from "@angular/forms";
-import { SomeJSONSchema } from "ajv/dist/types/json-schema";
-import { ParamsFormInfo } from "../models/form";
+import {
+  FormGroup,
+  ValidatorFn,
+  Validators,
+  FormControl,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
+import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
+import { ParamsFormInfo } from '../models/form';
 
 export function schemaToParamsFormInfo(schema: SomeJSONSchema): ParamsFormInfo {
   const paramsFormInfo: ParamsFormInfo = {
@@ -67,10 +74,7 @@ export function schemaToParamsFormInfo(schema: SomeJSONSchema): ParamsFormInfo {
             }
 
             //TODO(jwetzell): figure out how to disable a control but not have to deal with undefined values on disabled controls
-            paramsFormInfo.formGroup.addControl(
-              paramKey,
-              new FormControl(formDefault, validators),
-            );
+            paramsFormInfo.formGroup.addControl(paramKey, new FormControl(formDefault, validators));
 
             if (paramSchema.enum) {
               paramsFormInfo.paramsInfo[paramKey].options = paramSchema.enum;
@@ -100,11 +104,7 @@ export function cleanParams(paramsSchema: SomeJSONSchema, params: any): any {
       const paramSchema = paramsSchema.properties[paramKey];
 
       // delete null/undefined/empty params that aren't required
-      if (
-        params[paramKey] === undefined ||
-        params[paramKey] === null ||
-        params[paramKey] === ''
-      ) {
+      if (params[paramKey] === undefined || params[paramKey] === null || params[paramKey] === '') {
         if (paramSchema.required) {
           if (!paramSchema.includes(paramKey)) {
             delete params[paramKey];

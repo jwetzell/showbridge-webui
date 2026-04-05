@@ -1,11 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import {
-  Component,
-  effect,
-  input,
-  OnDestroy,
-  output
-} from '@angular/core';
+import { Component, effect, input, OnDestroy, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';

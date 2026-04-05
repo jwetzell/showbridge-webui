@@ -23,11 +23,11 @@ export default defineConfig({
   reporter: 'html',
   webServer: [
     {
-      name: "showbridge",
-      command: "showbridge --config config.yaml",
-      url: "http://localhost:8080/health",
-      timeout: 10000
-    }
+      name: 'showbridge',
+      command: 'showbridge --config config.yaml',
+      url: 'http://localhost:8080/health',
+      timeout: 10000,
+    },
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

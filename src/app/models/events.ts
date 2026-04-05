@@ -1,19 +1,19 @@
-import { Config } from "./config"
+import { Config } from './config';
 
 export type RouterEvent<T, D> = {
-    type: T,
-    data?: D,
-    error?: string,
-}
+  type: T;
+  data?: D;
+  error?: string;
+};
 
 export type RouteEventData = {
-    index: number
-}
+  index: number;
+};
 
 export type InputEventData = {
-    source: string
-}
+  source: string;
+};
 
 export type OutputEventData = {
-    destination: string
-}
+  destination: string;
+};
