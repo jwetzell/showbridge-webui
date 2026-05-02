@@ -55,7 +55,7 @@
     "playwright-ng-schematics": "^21.0.9",
     "postcss": "8.5.12",
     "prettier": "3.8.3",
-    "tailwindcss": "4.2.2",
+    "tailwindcss": "4.2.4",
     "typescript": "5.9.3",
     "vitest": "4.1.4"
   }
