@@ -117,6 +117,42 @@ export class ConfigService {
   }
 
   updateCurrentlyShownConfig(config: Config) {
+    if (isEqual(config, this.currentlyShownConfig())) {
+      // NOTE(jwetzell): no update
+      return;
+    }
     this.currentlyShownConfig.set(cloneDeep(config));
+  }
+
+  updateModules(modules: ModuleConfig[]) {
+    const currentConfig = this.currentlyShownConfig();
+    if (!currentConfig) {
+      console.error('No currently shown config to update modules on');
+      return;
+    }
+
+    if (isEqual(modules, currentConfig.modules)) {
+      return;
+    }
+    this.currentlyShownConfig.set({
+      ...currentConfig,
+      modules: modules,
+    });
+  }
+
+  updateRoutes(routes: RouteConfig[]) {
+    const currentConfig = this.currentlyShownConfig();
+    if (!currentConfig) {
+      console.error('No currently shown config to update routes on');
+      return;
+    }
+
+    if (isEqual(routes, currentConfig.routes)) {
+      return;
+    }
+    this.currentlyShownConfig.set({
+      ...currentConfig,
+      routes: routes,
+    });
   }
 }

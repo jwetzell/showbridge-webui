@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
-import { cloneDeep, has } from 'lodash-es';
+import { cloneDeep, has, isEqual } from 'lodash-es';
 import { Subscription } from 'rxjs';
 import { ParamInfo, ParamsFormInfo } from '../../models/form';
 import { cleanParams, schemaToParamsFormInfo } from '../../utils/params';
@@ -103,6 +103,10 @@ export class ParamsFormComponent implements OnDestroy {
     const paramsSchema = this.paramsSchema();
     if (paramsSchema) {
       const params = cleanParams(paramsSchema, this.paramsFormInfo?.formGroup.value);
+      if (isEqual(params, this.data())) {
+        // NOTE(jwetzell): no update
+        return;
+      }
       this.updated.emit(params);
     } else {
       console.error('params-form: no paramsSchema loaded');

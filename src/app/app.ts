@@ -80,15 +80,7 @@ export class App {
       console.error('modules is undefined, not updating');
       return;
     }
-    this.configService.currentlyShownConfig.update((config) => {
-      if (config) {
-        return {
-          ...config,
-          modules: modules,
-        };
-      }
-      return config;
-    });
+    this.configService.updateModules(modules);
   }
 
   routesUpdated(routes: RouteConfig[] | undefined) {
@@ -96,14 +88,6 @@ export class App {
       console.error('routes is undefined, not updating');
       return;
     }
-    this.configService.currentlyShownConfig.update((config) => {
-      if (config) {
-        return {
-          ...config,
-          routes: routes,
-        };
-      }
-      return config;
-    });
+    this.configService.updateRoutes(routes);
   }
 }
