@@ -25,6 +25,12 @@ export class SchemaService {
   routesSchema = signal<JSONSchemaType<RouteConfig[]> | undefined>(undefined);
   processorsSchema = signal<JSONSchemaType<ProcessorConfig[]> | undefined>(undefined);
 
+  // TODO(jwetzell): populate from loaded schemas
+  configSchemaId = 'https://showbridge.io/config.schema.json';
+  modulesSchemaId = 'https://showbridge.io/modules.schema.json';
+  routesSchemaId = 'https://showbridge.io/routes.schema.json';
+  processorsSchemaId = 'https://showbridge.io/processors.schema.json';
+
   schemasLoaded = computed(() => {
     return (
       this.configSchema() !== undefined &&
@@ -63,10 +69,7 @@ export class SchemaService {
           }
           break;
         case 'closed':
-          this.ajv.removeSchema(this.configSchema()!);
-          this.ajv.removeSchema(this.modulesSchema()!);
-          this.ajv.removeSchema(this.routesSchema()!);
-          this.ajv.removeSchema(this.processorsSchema()!);
+          this.resetAjv();
           this.configSchema.set(undefined);
           this.modulesSchema.set(undefined);
           this.routesSchema.set(undefined);
@@ -74,15 +77,13 @@ export class SchemaService {
           break;
       }
     });
+  }
 
-    effect(() => {
-      if (this.schemasLoaded()) {
-        this.ajv.addSchema(this.modulesSchema()!);
-        this.ajv.addSchema(this.routesSchema()!);
-        this.ajv.addSchema(this.processorsSchema()!);
-        this.ajv.compile(this.configSchema()!);
-      }
-    });
+  resetAjv() {
+    this.ajv.removeSchema(this.configSchema()!);
+    this.ajv.removeSchema(this.modulesSchema()!);
+    this.ajv.removeSchema(this.routesSchema()!);
+    this.ajv.removeSchema(this.processorsSchema()!);
   }
 
   loadConfigSchema() {
@@ -117,9 +118,9 @@ export class SchemaService {
       });
   }
 
-  validate(data: any): boolean {
+  validate(schemaId: string, data: any): boolean {
     if (this.schemasLoaded() && this.ajv) {
-      this.ajv.validate('https://showbridge.io/config.schema.json', data);
+      this.ajv.validate(schemaId, data);
       if (this.ajv.errors) {
         console.error('validation errors', this.ajv.errors);
         const errorPaths = new Set(
@@ -196,21 +197,32 @@ export class SchemaService {
     return paramsTemplate;
   }
 
+  addSchemaToAjv(schema: SomeJSONSchema) {
+    if (this.ajv.getSchema(schema.$id!)) {
+      this.ajv.removeSchema(schema.$id!);
+    }
+    this.ajv.addSchema(schema);
+  }
+
   setConfigSchema(schema: JSONSchemaType<Config>) {
+    this.addSchemaToAjv(schema);
     this.configSchema.set(schema);
   }
 
   setModulesSchema(schema: JSONSchemaType<ModuleConfig[]>) {
+    this.addSchemaToAjv(schema);
     this.modulesSchema.set(schema);
     this.moduleTypes = [];
     this.populateModuleTypes();
   }
 
   setRoutesSchema(schema: JSONSchemaType<RouteConfig[]>) {
+    this.addSchemaToAjv(schema);
     this.routesSchema.set(schema);
   }
 
   setProcessorsSchema(schema: JSONSchemaType<ProcessorConfig[]>) {
+    this.addSchemaToAjv(schema);
     this.processorsSchema.set(schema);
     this.processorTypes = [];
     this.populateProcessorTypes();

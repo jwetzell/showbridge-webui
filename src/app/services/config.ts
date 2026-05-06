@@ -1,6 +1,6 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { cloneDeep, isEqual } from 'lodash-es';
-import { Config, ConfigError, ModuleError, RouteError } from '../models/config';
+import { Config, ConfigError, ModuleConfig, ModuleError, RouteConfig, RouteError } from '../models/config';
 import { SchemaService } from './schema';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from './settings';
@@ -14,7 +14,7 @@ export class ConfigService {
     if (config === undefined) {
       return false;
     }
-    return this.schemaService.validate(config);
+    return this.schemaService.validate(this.schemaService.configSchemaId, config);
   });
   currentlyShownConfig = signal<Config | undefined>(undefined);
   runningConfig = signal<Config | undefined>(undefined);
@@ -59,7 +59,7 @@ export class ConfigService {
     }
     this.http.get<Config>(configUrl.toString()).subscribe({
       next: (config) => {
-        if (this.schemaService.validate(config)) {
+        if (this.schemaService.validate(this.schemaService.configSchemaId, config)) {
           this.updateCurrentlyShownConfig(config);
           this.runningConfig.set(cloneDeep(config));
         } else {
@@ -75,7 +75,7 @@ export class ConfigService {
   }
 
   uploadConfig(config: Config) {
-    if (this.schemaService.validate(config)) {
+    if (this.schemaService.validate(this.schemaService.configSchemaId,config)) {
       this.updateCurrentlyShownConfig(config);
       const configUrl = this.settingsService.configUrl();
       if (!configUrl) {
