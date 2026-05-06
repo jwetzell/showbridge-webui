@@ -13,9 +13,13 @@ export class EventsService {
   private outputEvents$ = new Subject<RouterEvent<'output', OutputEventData>>();
   private settingsService = inject(SettingsService);
 
+  private pingInterval?: number;
+  private lastPingTimestamp?: number;
+
+  public socketRoundTripLatency = signal<number | null>(null);
+
   constructor() {
     effect(() => {
-      console.log('Websocket URL changed:', this.settingsService.wsUrl());
       if (this.socket) {
         this.socket.close();
       }
@@ -28,6 +32,15 @@ export class EventsService {
       this.socket = new WebSocket(this.settingsService.wsUrl());
       this.socket.onopen = () => {
         this.status.set('open');
+        if (this.pingInterval) {
+          clearInterval(this.pingInterval);
+        }
+        this.pingInterval = setInterval(() => {
+          if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+            this.lastPingTimestamp = Date.now();
+            this.socket.send(JSON.stringify({ type: 'ping', data: {timestamp: this.lastPingTimestamp} }));
+          }
+        }, 5000);
       };
 
       this.socket.onclose = () => {
@@ -53,6 +66,11 @@ export class EventsService {
             break;
           case 'output':
             this.outputEvents$.next(messageObj);
+            break;
+          case 'pong':
+            if (this.lastPingTimestamp) {
+              this.socketRoundTripLatency.set(Date.now() - this.lastPingTimestamp);
+            }
             break;
           default:
             console.warn('Unknown event type:', messageObj.type);
