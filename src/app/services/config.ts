@@ -131,9 +131,6 @@ export class ConfigService {
       return;
     }
 
-    if (isEqual(modules, currentConfig.modules)) {
-      return;
-    }
     this.currentlyShownConfig.set({
       ...currentConfig,
       modules: modules,
@@ -147,9 +144,6 @@ export class ConfigService {
       return;
     }
 
-    if (isEqual(routes, currentConfig.routes)) {
-      return;
-    }
     this.currentlyShownConfig.set({
       ...currentConfig,
       routes: routes,
