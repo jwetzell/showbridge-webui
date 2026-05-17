@@ -1,17 +1,24 @@
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray
+} from '@angular/cdk/drag-drop';
+import { JsonPipe } from '@angular/common';
 import { Component, computed, inject, input, model, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { ProcessorConfig, RouteConfig } from '../../models/config';
-import { SchemaService } from '../../services/schema';
-import { JsonPipe } from '@angular/common';
-import { ProcessorComponent } from '../processor/processor';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { EventsService } from '../../services/events';
 import { debounceTime, tap } from 'rxjs';
+import { ProcessorConfig, RouteConfig } from '../../models/config';
 import { ConfigService } from '../../services/config';
+import { EventsService } from '../../services/events';
+import { ListsService } from '../../services/lists';
+import { SchemaService } from '../../services/schema';
+import { ProcessorComponent } from '../processor/processor';
 
 @Component({
   selector: 'app-route',
@@ -23,6 +30,8 @@ import { ConfigService } from '../../services/config';
     JsonPipe,
     ProcessorComponent,
     MatTooltipModule,
+    CdkDrag,
+    CdkDropList,
   ],
   templateUrl: './route.html',
   styleUrl: './route.css',
@@ -69,6 +78,7 @@ export class RouteComponent {
   private snackBar = inject(MatSnackBar);
   private eventsService = inject(EventsService);
   private configService = inject(ConfigService);
+  public listsService = inject(ListsService);
 
   indicatorColor = signal<string>('gray');
 
@@ -166,5 +176,24 @@ export class RouteComponent {
     this.snackBar.open('Processor Removed', 'Dismiss', {
       duration: 3000,
     });
+  }
+
+  drop(event: CdkDragDrop<ProcessorConfig[] | undefined>) {
+    // TODO(jwetzell): support moving between routes
+    if (event.previousContainer === event.container) {
+      const processors = this.route()?.processors;
+      if (processors !== undefined) {
+        moveItemInArray(processors, event.previousIndex, event.currentIndex);
+        this.route.update((route) => {
+          if (route) {
+            return {
+              ...route,
+              processors: [...processors],
+            };
+          }
+          return route;
+        });
+      }
+    }
   }
 }

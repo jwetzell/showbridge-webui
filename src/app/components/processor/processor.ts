@@ -4,10 +4,18 @@ import { SchemaService } from '../../services/schema';
 import { MatIconModule } from '@angular/material/icon';
 import { ParamsFormComponent } from '../params-form/params-form';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CdkDragHandle, CdkDragPlaceholder, CdkDragPreview } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-processor',
-  imports: [MatIconModule, ParamsFormComponent, ReactiveFormsModule],
+  imports: [
+    MatIconModule,
+    ParamsFormComponent,
+    ReactiveFormsModule,
+    CdkDragHandle,
+    CdkDragPreview,
+    CdkDragPlaceholder,
+  ],
   templateUrl: './processor.html',
   styleUrl: './processor.css',
 })
@@ -15,6 +23,8 @@ export class ProcessorComponent {
   path = input<string>('');
   processor = model<ProcessorConfig>();
   delete = output<void>();
+
+  inDragList = input<boolean>(false);
 
   params = computed(() => this.processor()!.params);
 
