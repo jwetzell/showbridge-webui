@@ -38,7 +38,9 @@ export class EventsService {
         this.pingInterval = setInterval(() => {
           if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             this.lastPingTimestamp = Date.now();
-            this.socket.send(JSON.stringify({ type: 'ping', data: {timestamp: this.lastPingTimestamp} }));
+            this.socket.send(
+              JSON.stringify({ type: 'ping', data: { timestamp: this.lastPingTimestamp } }),
+            );
           }
         }, 5000);
       };

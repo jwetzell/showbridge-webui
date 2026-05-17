@@ -63,10 +63,11 @@
           <div class="text-md text-white text-center">Processors</div>
         </div>
         @if (processors() !== undefined && processors()!.length > 0) {
-          <div class="border-2 border-gray-500 m-2"
-          cdkDropList
-          (cdkDropListDropped)="drop($event)"
-          [cdkDropListData]="route()?.processors"
+          <div
+            class="border-2 border-gray-500 m-2"
+            cdkDropList
+            (cdkDropListDropped)="drop($event)"
+            [cdkDropListData]="route()?.processors"
           >
             @for (processor of processors(); track $index; let i = $index) {
               <div cdkDrag>

@@ -1,4 +1,3 @@
-
 export type RouterEvent<T, D> = {
   type: T;
   data?: D;

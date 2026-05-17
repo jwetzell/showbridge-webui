@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { cloneDeep, isEqual } from 'lodash-es';
-import { Config, ConfigError, ModuleConfig, ModuleError, RouteConfig, RouteError } from '../models/config';
+import {
+  Config,
+  ConfigError,
+  ModuleConfig,
+  ModuleError,
+  RouteConfig,
+  RouteError,
+} from '../models/config';
 import { EventsService } from './events';
 import { SchemaService } from './schema';
 import { SettingsService } from './settings';
@@ -75,7 +82,7 @@ export class ConfigService {
   }
 
   uploadConfig(config: Config) {
-    if (this.schemaService.validate(this.schemaService.configSchemaId,config)) {
+    if (this.schemaService.validate(this.schemaService.configSchemaId, config)) {
       this.updateCurrentlyShownConfig(config);
       const configUrl = this.settingsService.configUrl();
       if (!configUrl) {

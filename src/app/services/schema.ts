@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import {
-  AbstractControl,
-  ValidationErrors
-} from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { Ajv2020, JSONSchemaType } from 'ajv/dist/2020';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 import { sortBy } from 'lodash-es';

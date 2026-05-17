@@ -2,7 +2,15 @@
   <div class="w-full">
     <mat-toolbar color="primary">
       @if (eventsService.status() === 'open') {
-        <div [matTooltip]="'Connected' + (eventsService.socketRoundTripLatency() !== null ? ' (' + eventsService.socketRoundTripLatency() + ' ms)' : '')" class="h-3 w-3 rounded-full bg-green-400 mr-2"></div>
+        <div
+          [matTooltip]="
+            'Connected' +
+            (eventsService.socketRoundTripLatency() !== null
+              ? ' (' + eventsService.socketRoundTripLatency() + ' ms)'
+              : '')
+          "
+          class="h-3 w-3 rounded-full bg-green-400 mr-2"
+        ></div>
       } @else if (eventsService.status() === 'closed') {
         <div matTooltip="Disconnected" class="h-3 w-3 rounded-full bg-orange-400 mr-2"></div>
       } @else if (eventsService.status() === 'error') {
