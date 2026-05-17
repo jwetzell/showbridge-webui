@@ -1,12 +1,12 @@
 import { Component, inject, model } from '@angular/core';
-import { ModuleComponent } from '../module/module';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModuleConfig } from '../../models/config';
-import { SchemaService } from '../../services/schema';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ModuleConfig } from '../../models/config';
+import { SchemaService } from '../../services/schema';
+import { ModuleComponent } from '../module/module';
 
 @Component({
   selector: 'app-module-list',

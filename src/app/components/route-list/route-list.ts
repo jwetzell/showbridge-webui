@@ -1,12 +1,12 @@
 import { Component, inject, input, model } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModuleConfig, RouteConfig } from '../../models/config';
-import { SchemaService } from '../../services/schema';
-import { RouteComponent } from '../route/route';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouteConfig } from '../../models/config';
+import { SchemaService } from '../../services/schema';
+import { RouteComponent } from '../route/route';
 
 @Component({
   selector: 'app-route-list',

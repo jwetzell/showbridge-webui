@@ -5,17 +5,15 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterOutlet } from '@angular/router';
-import * as yaml from 'js-yaml';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ConfigPreviewComponent } from './components/config-preview/config-preview';
+import { ModuleListComponent } from './components/module-list/module-list';
+import { RouteListComponent } from './components/route-list/route-list';
 import { Config, ModuleConfig, RouteConfig } from './models/config';
 import { ConfigService } from './services/config';
 import { EventsService } from './services/events';
 import { SchemaService } from './services/schema';
 import { SettingsService } from './services/settings';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ModuleListComponent } from './components/module-list/module-list';
-import { RouteListComponent } from './components/route-list/route-list';
-import { ConfigPreviewComponent } from './components/config-preview/config-preview';
 
 @Component({
   selector: 'app-root',

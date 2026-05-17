@@ -1,10 +1,10 @@
-import { Component, computed, inject, input, model, output, signal } from '@angular/core';
+import { CdkDragHandle, CdkDragPlaceholder, CdkDragPreview } from '@angular/cdk/drag-drop';
+import { Component, computed, inject, input, model, output } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { ProcessorConfig } from '../../models/config';
 import { SchemaService } from '../../services/schema';
-import { MatIconModule } from '@angular/material/icon';
 import { ParamsFormComponent } from '../params-form/params-form';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CdkDragHandle, CdkDragPlaceholder, CdkDragPreview } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-processor',

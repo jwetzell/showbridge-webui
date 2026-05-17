@@ -1,4 +1,3 @@
-import { Config } from './config';
 
 export type RouterEvent<T, D> = {
   type: T;

@@ -1,16 +1,16 @@
+import { JsonPipe } from '@angular/common';
 import { Component, computed, inject, input, model, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { debounceTime, tap } from 'rxjs';
 import { ModuleConfig } from '../../models/config';
+import { ConfigService } from '../../services/config';
+import { EventsService } from '../../services/events';
 import { SchemaService } from '../../services/schema';
 import { ParamsFormComponent } from '../params-form/params-form';
-import { JsonPipe } from '@angular/common';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { EventsService } from '../../services/events';
-import { tap, debounceTime } from 'rxjs';
-import { ConfigService } from '../../services/config';
 
 @Component({
   selector: 'app-module',

@@ -1,10 +1,10 @@
 import {
+  AbstractControl,
+  FormControl,
   FormGroup,
+  ValidationErrors,
   ValidatorFn,
   Validators,
-  FormControl,
-  AbstractControl,
-  ValidationErrors,
 } from '@angular/forms';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 import { ParamsFormInfo } from '../models/form';

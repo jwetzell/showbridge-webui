@@ -1,6 +1,6 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
-import { InputEventData, OutputEventData, RouteEventData, RouterEvent } from '../models/events';
 import { filter, Subject } from 'rxjs';
+import { InputEventData, OutputEventData, RouteEventData, RouterEvent } from '../models/events';
 import { SettingsService } from './settings';
 @Injectable({
   providedIn: 'root',

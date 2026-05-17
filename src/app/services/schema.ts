@@ -2,19 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
+  ValidationErrors
 } from '@angular/forms';
 import { Ajv2020, JSONSchemaType } from 'ajv/dist/2020';
 import { SomeJSONSchema } from 'ajv/dist/types/json-schema';
 import { sortBy } from 'lodash-es';
 import { Config, ModuleConfig, ProcessorConfig, RouteConfig } from '../models/config';
-import { ObjectInfo, ParamsFormInfo } from '../models/form';
-import { SettingsService } from './settings';
+import { ObjectInfo } from '../models/form';
 import { EventsService } from './events';
+import { SettingsService } from './settings';
 
 @Injectable({
   providedIn: 'root',
