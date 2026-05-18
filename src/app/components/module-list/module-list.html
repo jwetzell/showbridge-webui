@@ -5,6 +5,8 @@
         matTooltip="Add Module"
         class="flex items-center justify-center w-10 h-10 bg-transparent hover:bg-gray-700 hover:cursor-pointer text-blue-400"
         [matMenuTriggerFor]="addModuleMenu"
+        role="button"
+        aria-label="Add Module"
       >
         <mat-icon>add</mat-icon>
       </div>
@@ -27,6 +29,7 @@
     @for (module of modules(); track module.id; let i = $index) {
       <div class="m-2" cdkDrag>
         <app-module
+          [id]="listService.pathToId(`modules/${i}`)"
           [path]="`modules/${i}`"
           [module]="module"
           (updated)="moduleUpdated(i, $event)"

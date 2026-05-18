@@ -16,6 +16,7 @@ import { cloneDeep } from 'lodash-es';
 import { RouteConfig } from '../../models/config';
 import { SchemaService } from '../../services/schema';
 import { RouteComponent } from '../route/route';
+import { ListsService } from '../../services/lists';
 
 @Component({
   selector: 'app-route-list',
@@ -37,6 +38,7 @@ export class RouteListComponent {
   moduleIds = input<string[]>();
   updated = output<RouteConfig[]>();
   public schemaService = inject(SchemaService);
+  public listService = inject(ListsService);
 
   private snackBar = inject(MatSnackBar);
 

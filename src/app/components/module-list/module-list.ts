@@ -9,6 +9,7 @@ import { cloneDeep } from 'lodash-es';
 import { ModuleConfig } from '../../models/config';
 import { SchemaService } from '../../services/schema';
 import { ModuleComponent } from '../module/module';
+import { ListsService } from '../../services/lists';
 
 @Component({
   selector: 'app-module-list',
@@ -28,6 +29,7 @@ export class ModuleListComponent {
   modules = input<ModuleConfig[]>();
   updated = output<ModuleConfig[]>();
   public schemaService = inject(SchemaService);
+  public listService = inject(ListsService);
 
   private snackBar = inject(MatSnackBar);
 
