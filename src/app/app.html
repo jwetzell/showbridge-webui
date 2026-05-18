@@ -57,7 +57,7 @@
         <app-route-list
           [routes]="config()?.routes"
           [moduleIds]="moduleIds()"
-          (routesChange)="routesUpdated($event)"
+          (updated)="routesUpdated($event)"
         ></app-route-list>
       </div>
       <div class="w-1/2 overflow-y-hidden">

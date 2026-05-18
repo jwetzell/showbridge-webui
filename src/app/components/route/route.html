@@ -66,6 +66,8 @@
           <div
             class="border-2 border-gray-500 m-2"
             cdkDropList
+            [id]="listsService.registerProcessorList(path() + '/processors')"
+            [cdkDropListConnectedTo]="listsService.processorListIds"
             (cdkDropListDropped)="drop($event)"
             [cdkDropListData]="route()?.processors"
           >
@@ -73,7 +75,7 @@
               <div cdkDrag>
                 <app-processor
                   [path]="path() + '/processors/' + i"
-                  (processorChange)="processorUpdated(i, $event)"
+                  (updated)="processorUpdated(i, $event)"
                   [processor]="processor"
                   (delete)="deleteProcessor(i)"
                   [inDragList]="true"

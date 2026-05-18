@@ -1,5 +1,5 @@
 import { CdkDragHandle, CdkDragPlaceholder, CdkDragPreview } from '@angular/cdk/drag-drop';
-import { Component, computed, inject, input, model, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ProcessorConfig } from '../../models/config';
@@ -21,7 +21,7 @@ import { ParamsFormComponent } from '../params-form/params-form';
 })
 export class ProcessorComponent {
   path = input<string>('');
-  processor = model<ProcessorConfig>();
+  processor = input<ProcessorConfig>();
   delete = output<void>();
 
   inDragList = input<boolean>(false);
@@ -34,6 +34,8 @@ export class ProcessorComponent {
       : undefined;
   });
 
+  updated = output<ProcessorConfig>();
+
   hasParams = computed(() => {
     const schema = this.schema();
     return (
@@ -45,20 +47,20 @@ export class ProcessorComponent {
   private schemaService = inject(SchemaService);
 
   paramsUpdated(params: any) {
-    this.processor.update((processor) => {
-      if (processor !== undefined) {
-        if (params !== undefined) {
-          return {
-            ...processor,
-            params: params,
-          };
-        }
-        return {
-          ...processor,
-        };
+    console.log('Params updated:', params);
+    const currentProcessor = this.processor();
+    if (currentProcessor !== undefined) {
+      if (params !== undefined) {
+        this.updated.emit({
+          ...currentProcessor,
+          params: params,
+        });
+      } else {
+        this.updated.emit({
+          ...currentProcessor,
+        });
       }
-      return undefined;
-    });
+    }
   }
 
   deleteMe() {

@@ -1,12 +1,13 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { JsonPipe } from '@angular/common';
-import { Component, computed, inject, input, model, output, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { cloneDeep } from 'lodash-es';
 import { debounceTime, tap } from 'rxjs';
 import { ProcessorConfig, RouteConfig } from '../../models/config';
 import { ConfigService } from '../../services/config';
@@ -44,9 +45,16 @@ export class RouteComponent {
     return undefined;
   });
 
-  route = model<RouteConfig>();
+  route = input<RouteConfig>();
   moduleIds = input<string[]>([]);
   delete = output<void>();
+  updated = output<RouteConfig>();
+  moveProcessor = output<{
+    fromRouteIndex: number;
+    toRouteIndex: number;
+    fromProcessorIndex: number;
+    toProcessorIndex: number;
+  }>();
 
   processors = computed(() => {
     const route = this.route();
@@ -83,15 +91,14 @@ export class RouteComponent {
     });
 
     this.formGroup.valueChanges.subscribe((value) => {
-      this.route.update((route) => {
-        if (route) {
-          route.input = value.input;
-          return {
-            ...route,
-            input: route.input,
-          };
-        }
-        return undefined;
+      const currentRoute = this.route();
+      if (currentRoute === undefined) {
+        console.error('route is undefined, not updating');
+        return;
+      }
+      this.updated.emit({
+        ...currentRoute,
+        input: value.input,
       });
     });
 
@@ -120,18 +127,18 @@ export class RouteComponent {
 
   addProcessor(processorType: string) {
     const processorTemplate = this.schemaService.getSkeletonForProcessor(processorType);
-    this.route.update((route) => {
-      if (route) {
-        const processors = route.processors || [];
-
-        processors.push(processorTemplate);
-        return {
-          ...route,
-          processors: [...processors],
-        };
-      }
-      return route;
+    const currentRoute = this.route();
+    if (currentRoute === undefined) {
+      console.error('route is undefined, not updating');
+      return;
+    }
+    const processors = currentRoute.processors || [];
+    processors.push(processorTemplate);
+    this.updated.emit({
+      ...currentRoute,
+      processors: cloneDeep(processors),
     });
+
     this.snackBar.open('Processor Added', 'Dismiss', {
       duration: 3000,
     });
@@ -142,53 +149,75 @@ export class RouteComponent {
       console.error('processor is undefined, not updating');
       return;
     }
-    this.route.update((route) => {
-      if (route && route.processors) {
-        route.processors[index].type = processor.type;
-        if (processor.params !== undefined) {
-          route.processors[index].params = processor.params;
-        }
-        return {
-          ...route,
-          processors: [...route.processors],
-        };
-      }
-      return route;
+    const currentRoute = this.route();
+    if (currentRoute === undefined) {
+      console.error('route is undefined, not updating');
+      return;
+    }
+    if (currentRoute.processors === undefined) {
+      console.error('route processors is undefined, not updating');
+      return;
+    }
+    currentRoute.processors[index].type = processor.type;
+    if (processor.params !== undefined) {
+      currentRoute.processors[index].params = processor.params;
+    }
+    this.updated.emit({
+      ...currentRoute,
+      processors: cloneDeep(currentRoute.processors),
     });
   }
 
   deleteProcessor(index: number) {
-    this.route.update((route) => {
-      if (route && route.processors) {
-        route?.processors?.splice(index, 1);
-        return {
-          ...route,
-          processors: [...route.processors],
-        };
-      }
-      return route;
+    const currentRoute = this.route();
+    if (currentRoute === undefined) {
+      console.error('route is undefined, not updating');
+      return;
+    }
+    if (currentRoute.processors === undefined) {
+      console.error('route processors is undefined, not updating');
+      return;
+    }
+    currentRoute.processors.splice(index, 1);
+
+    this.updated.emit({
+      ...currentRoute,
+      processors: cloneDeep(currentRoute.processors),
     });
+
     this.snackBar.open('Processor Removed', 'Dismiss', {
       duration: 3000,
     });
   }
 
   drop(event: CdkDragDrop<ProcessorConfig[] | undefined>) {
-    // TODO(jwetzell): support moving between routes
     if (event.previousContainer === event.container) {
-      const processors = this.route()?.processors;
-      if (processors !== undefined) {
-        moveItemInArray(processors, event.previousIndex, event.currentIndex);
-        this.route.update((route) => {
-          if (route) {
-            return {
-              ...route,
-              processors: [...processors],
-            };
-          }
-          return route;
-        });
+      const currentRoute = this.route();
+      if (currentRoute === undefined) {
+        console.error('route is undefined, not updating');
+        return;
       }
+      const processors = currentRoute.processors;
+      if (processors === undefined) {
+        console.error('route processors is undefined, cannot move processor');
+        return;
+      }
+      moveItemInArray(processors, event.previousIndex, event.currentIndex);
+      this.updated.emit({
+        ...currentRoute,
+        processors: cloneDeep(processors),
+      });
+    } else {
+      const fromRouteIndex = parseInt(event.previousContainer.id.split('.')[1], 10);
+      const toRouteIndex = parseInt(event.container.id.split('.')[1], 10);
+      const fromProcessorIndex = event.previousIndex;
+      const toProcessorIndex = event.currentIndex;
+      this.moveProcessor.emit({
+        fromRouteIndex,
+        toRouteIndex,
+        fromProcessorIndex,
+        toProcessorIndex,
+      });
     }
   }
 }

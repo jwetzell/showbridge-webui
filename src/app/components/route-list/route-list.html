@@ -14,10 +14,11 @@
       <div class="m-2">
         <app-route
           [path]="`routes/${i}`"
-          (routeChange)="routeUpdated(i, $event)"
+          (updated)="routeUpdated(i, $event)"
           [route]="route"
           [moduleIds]="moduleIds() || []"
           (delete)="deleteRoute(i)"
+          (moveProcessor)="moveProcessorBetweenRoutes($event)"
         ></app-route>
       </div>
     }

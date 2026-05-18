@@ -1,9 +1,11 @@
-import { Component, inject, input, model } from '@angular/core';
+import { transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component, inject, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { cloneDeep } from 'lodash-es';
 import { RouteConfig } from '../../models/config';
 import { SchemaService } from '../../services/schema';
 import { RouteComponent } from '../route/route';
@@ -15,20 +17,21 @@ import { RouteComponent } from '../route/route';
   styleUrl: './route-list.css',
 })
 export class RouteListComponent {
-  routes = model<RouteConfig[]>();
+  routes = input<RouteConfig[]>();
   moduleIds = input<string[]>();
+  updated = output<RouteConfig[]>();
   public schemaService = inject(SchemaService);
 
   private snackBar = inject(MatSnackBar);
 
   deleteRoute(index: number) {
-    this.routes.update((routes) => {
-      if (routes) {
-        routes?.splice(index, 1);
-        return [...routes];
-      }
-      return routes;
-    });
+    const currentRoutes = this.routes();
+    if (currentRoutes === undefined) {
+      console.error('routes is undefined, cannot delete');
+      return;
+    }
+    currentRoutes.splice(index, 1);
+    this.updated.emit(cloneDeep(currentRoutes));
     this.snackBar.open('Route Removed', 'Dismiss', {
       duration: 3000,
     });
@@ -39,29 +42,65 @@ export class RouteListComponent {
       console.error('route is undefined, not updating');
       return;
     }
-    this.routes.update((routes) => {
-      if (routes) {
-        routes[index].input = route.input;
-        if (route.processors) {
-          routes[index].processors = [...route.processors];
-        }
-        return [...routes];
-      }
-      return routes;
-    });
+    const currentRoutes = this.routes();
+    if (currentRoutes === undefined) {
+      console.error('routes is undefined, cannot update');
+      return;
+    }
+    currentRoutes[index] = cloneDeep(route);
+    this.updated.emit(cloneDeep(currentRoutes));
   }
 
   addRoute() {
     const routeTemplate = this.schemaService.getSkeletonForRoute();
-    this.routes.update((routes) => {
-      if (!routes) {
-        routes = [];
-      }
-      routes?.push(routeTemplate);
-      return [...routes];
-    });
+    const currentRoutes = this.routes() || [];
+    if (currentRoutes === undefined) {
+      console.error('routes is undefined, cannot update');
+      return;
+    }
+    currentRoutes.push(routeTemplate);
+    this.updated.emit(cloneDeep(currentRoutes));
     this.snackBar.open('Route Added', 'Dismiss', {
       duration: 3000,
     });
+  }
+
+  moveProcessorBetweenRoutes(event: {
+    fromRouteIndex: number;
+    toRouteIndex: number;
+    fromProcessorIndex: number;
+    toProcessorIndex: number;
+  }) {
+    if (event.fromRouteIndex === event.toRouteIndex) {
+      console.error(
+        'this should be handled by the route component, not moving processor between routes',
+      );
+      return;
+    }
+    const routes = this.routes();
+    if (routes === undefined) {
+      console.error('routes is undefined, cannot move processor');
+      return;
+    }
+    const fromRoute = routes[event.fromRouteIndex];
+    const toRoute = routes[event.toRouteIndex];
+    if (fromRoute === undefined || toRoute === undefined) {
+      console.error('fromRoute or toRoute is undefined, cannot move processor');
+      return;
+    }
+    const fromProcessors = fromRoute.processors;
+    const toProcessors = toRoute.processors;
+    if (fromProcessors === undefined || toProcessors === undefined) {
+      console.error('fromProcessors or toProcessors is undefined, cannot move processor');
+      return;
+    }
+    transferArrayItem(
+      fromProcessors,
+      toProcessors,
+      event.fromProcessorIndex,
+      event.toProcessorIndex,
+    );
+
+    this.updated.emit(cloneDeep(routes));
   }
 }
