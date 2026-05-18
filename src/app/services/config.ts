@@ -138,10 +138,9 @@ export class ConfigService {
       return;
     }
 
-    this.currentlyShownConfig.set({
-      ...currentConfig,
-      modules: modules,
-    });
+    currentConfig.modules = cloneDeep(modules);
+
+    this.updateCurrentlyShownConfig(currentConfig);
   }
 
   updateRoutes(routes: RouteConfig[]) {
@@ -151,9 +150,8 @@ export class ConfigService {
       return;
     }
 
-    this.currentlyShownConfig.set({
-      ...currentConfig,
-      routes: routes,
-    });
+    currentConfig.routes = cloneDeep(routes);
+
+    this.updateCurrentlyShownConfig(currentConfig);
   }
 }
