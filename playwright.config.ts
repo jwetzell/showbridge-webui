@@ -24,9 +24,13 @@ export default defineConfig({
   webServer: [
     {
       name: 'showbridge',
-      command: 'showbridge --config config.yaml',
+      command: 'showbridge --config config.test.yaml',
       url: 'http://localhost:8080/health',
       timeout: 10000,
+      gracefulShutdown: {
+        signal: 'SIGTERM',
+        timeout: 5000,
+      },
     },
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -36,6 +40,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    video: 'retain-on-failure',
   },
   /* Configure projects for major browsers */
   projects: [
