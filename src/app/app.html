@@ -52,7 +52,7 @@
       <div class="grow overflow-y-auto">
         <app-module-list
           [modules]="config()?.modules"
-          (modulesChange)="modulesUpdated($event)"
+          (updated)="modulesUpdated($event)"
         ></app-module-list>
         <app-route-list
           [routes]="config()?.routes"

@@ -18,14 +18,20 @@
     }
     <div class="text-white">Modules</div>
   </div>
-  <div class="grow overflow-x-hidden overflow-y-auto gap-1.5">
+  <div
+    class="grow overflow-x-hidden overflow-y-auto gap-1.5"
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListData]="modules()"
+  >
     @for (module of modules(); track module.id; let i = $index) {
-      <div class="m-2">
+      <div class="m-2" cdkDrag>
         <app-module
           [path]="`modules/${i}`"
-          (moduleChange)="moduleUpdated(i, $event)"
           [module]="module"
+          (updated)="moduleUpdated(i, $event)"
           (delete)="deleteModule(i)"
+          [inDragList]="true"
         ></app-module>
       </div>
     }

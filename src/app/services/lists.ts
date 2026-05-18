@@ -18,6 +18,15 @@ export class ListsService {
     return id;
   }
 
+  removeProcessorList(path: string | undefined) {
+    if (path === undefined) {
+      return;
+    }
+
+    const id = this.pathToId(path);
+    this.processorListIds = this.processorListIds.filter((listId) => listId !== id);
+  }
+
   pathToId(path: string) {
     return path.replaceAll('/', '.');
   }

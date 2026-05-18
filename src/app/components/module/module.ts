@@ -1,10 +1,12 @@
+import { CdkDragHandle, CdkDragPlaceholder, CdkDragPreview } from '@angular/cdk/drag-drop';
 import { JsonPipe } from '@angular/common';
-import { Component, computed, inject, input, model, output, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { cloneDeep } from 'lodash-es';
 import { debounceTime, tap } from 'rxjs';
 import { ModuleConfig } from '../../models/config';
 import { ConfigService } from '../../services/config';
@@ -22,6 +24,9 @@ import { ParamsFormComponent } from '../params-form/params-form';
     MatMenuModule,
     MatTooltipModule,
     JsonPipe,
+    CdkDragHandle,
+    CdkDragPreview,
+    CdkDragPlaceholder,
   ],
   templateUrl: './module.html',
   styleUrl: './module.css',
@@ -38,8 +43,10 @@ export class ModuleComponent {
     return undefined;
   });
 
-  module = model<ModuleConfig>();
+  inDragList = input<boolean>(false);
+  module = input<ModuleConfig>();
   delete = output<void>();
+  updated = output<ModuleConfig>();
 
   params = computed(() => this.module()!.params);
   id = computed(() => this.module()!.id);
@@ -77,18 +84,12 @@ export class ModuleComponent {
     });
 
     this.formGroup.valueChanges.subscribe((value) => {
-      this.module.update((module) => {
-        if (module) {
-          module.id = value.id;
-          module.type = value.type;
-          return {
-            ...module,
-            id: module.id,
-            type: module.type,
-          };
-        }
-        return undefined;
-      });
+      const currentModule = this.module();
+      if (currentModule) {
+        currentModule.id = value.id;
+        currentModule.type = value.type;
+        this.updated.emit(cloneDeep(currentModule));
+      }
     });
     if (this.id() !== undefined) {
       this.eventsService
@@ -117,16 +118,11 @@ export class ModuleComponent {
   }
 
   paramsUpdated(params: any) {
-    this.module.update((module) => {
-      if (module !== undefined && module.params !== undefined) {
-        module.params = params;
-        return {
-          ...module,
-          params: module.params,
-        };
-      }
-      return undefined;
-    });
+    const currentModule = this.module();
+    if (currentModule && currentModule.params !== undefined) {
+      currentModule.params = params;
+      this.updated.emit(cloneDeep(currentModule));
+    }
   }
 
   deleteMe() {

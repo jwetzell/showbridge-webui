@@ -1,4 +1,11 @@
-import { transferArrayItem } from '@angular/cdk/drag-drop';
+import { A11yModule } from '@angular/cdk/a11y';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { Component, inject, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +19,16 @@ import { RouteComponent } from '../route/route';
 
 @Component({
   selector: 'app-route-list',
-  imports: [RouteComponent, MatMenuModule, MatIconModule, MatButtonModule, MatTooltipModule],
+  imports: [
+    RouteComponent,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    CdkDrag,
+    CdkDropList,
+    A11yModule,
+  ],
   templateUrl: './route-list.html',
   styleUrl: './route-list.css',
 })
@@ -102,5 +118,18 @@ export class RouteListComponent {
     );
 
     this.updated.emit(cloneDeep(routes));
+  }
+
+  drop(event: CdkDragDrop<RouteConfig[] | undefined>) {
+    console.log('Drop event:', event);
+    if (event.previousContainer === event.container) {
+      const currentRoutes = this.routes();
+      if (currentRoutes === undefined) {
+        console.error('routes is undefined, not updating');
+        return;
+      }
+      moveItemInArray(currentRoutes, event.previousIndex, event.currentIndex);
+      this.updated.emit(cloneDeep(currentRoutes));
+    }
   }
 }

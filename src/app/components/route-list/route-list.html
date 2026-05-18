@@ -9,9 +9,14 @@
     </div>
     <div class="text-white">Routes</div>
   </div>
-  <div class="grow overflow-x-hidden overflow-y-auto gap-1.5">
-    @for (route of routes(); track $index; let i = $index) {
-      <div class="m-2">
+  <div
+    class="grow overflow-x-hidden overflow-y-auto gap-1.5"
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListData]="routes()"
+  >
+    @for (route of routes(); track route; let i = $index) {
+      <div class="m-2" cdkDrag>
         <app-route
           [path]="`routes/${i}`"
           (updated)="routeUpdated(i, $event)"
@@ -19,6 +24,7 @@
           [moduleIds]="moduleIds() || []"
           (delete)="deleteRoute(i)"
           (moveProcessor)="moveProcessorBetweenRoutes($event)"
+          [inDragList]="true"
         ></app-route>
       </div>
     }

@@ -1,4 +1,11 @@
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDragPlaceholder,
+  CdkDragPreview,
+  CdkDropList,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { JsonPipe } from '@angular/common';
 import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -28,6 +35,8 @@ import { ProcessorComponent } from '../processor/processor';
     MatTooltipModule,
     CdkDrag,
     CdkDropList,
+    CdkDragPreview,
+    CdkDragPlaceholder,
   ],
   templateUrl: './route.html',
   styleUrl: './route.css',
@@ -45,6 +54,7 @@ export class RouteComponent {
     return undefined;
   });
 
+  inDragList = input<boolean>(false);
   route = input<RouteConfig>();
   moduleIds = input<string[]>([]);
   delete = output<void>();
@@ -83,7 +93,13 @@ export class RouteComponent {
   private configService = inject(ConfigService);
   public listsService = inject(ListsService);
 
+  public processorListId = signal<string>('');
+
   indicatorColor = signal<string>('gray');
+
+  ngOnDestroy(): void {
+    this.listsService.removeProcessorList(this.path() + '/processors');
+  }
 
   ngOnInit(): void {
     this.formGroup.patchValue({
@@ -115,6 +131,7 @@ export class RouteComponent {
           this.indicatorColor.set('gray');
         });
     }
+    this.processorListId.set(this.listsService.registerProcessorList(this.path() + '/processors'));
   }
 
   isInError(): boolean {
