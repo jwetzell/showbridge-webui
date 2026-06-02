@@ -7,9 +7,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { cloneDeep } from 'lodash-es';
 import { ModuleConfig } from '../../models/config';
+import { ListsService } from '../../services/lists';
 import { SchemaService } from '../../services/schema';
 import { ModuleComponent } from '../module/module';
-import { ListsService } from '../../services/lists';
 
 @Component({
   selector: 'app-module-list',
@@ -75,7 +75,6 @@ export class ModuleListComponent {
   }
 
   drop(event: CdkDragDrop<ModuleConfig[] | undefined>) {
-    console.log('Drop event:', event);
     if (event.previousContainer === event.container) {
       const currentModules = this.modules();
       if (currentModules === undefined) {

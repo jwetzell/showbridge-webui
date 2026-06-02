@@ -17,17 +17,18 @@ import { SettingsService } from './settings';
 })
 export class ConfigService {
   pendingConfigIsValid = computed(() => {
-    const config = this.currentlyShownConfig();
+    const config = this._currentlyShownConfig();
     if (config === undefined) {
       return false;
     }
     return this.schemaService.validate(this.schemaService.configSchemaId, config);
   });
-  currentlyShownConfig = signal<Config | undefined>(undefined);
-  runningConfig = signal<Config | undefined>(undefined);
+  private runningConfig = signal<Config | undefined>(undefined);
+  private _currentlyShownConfig = signal<Config | undefined>(undefined);
+  readonly currentlyShownConfig = this._currentlyShownConfig.asReadonly();
 
   configIsDirty = computed(() => {
-    const currentlyShown = this.currentlyShownConfig();
+    const currentlyShown = this._currentlyShownConfig();
     const running = this.runningConfig();
     if (currentlyShown === undefined || running === undefined) {
       return false;
@@ -44,7 +45,7 @@ export class ConfigService {
 
   constructor(private schemaService: SchemaService) {
     effect(() => {
-      console.log('config state changed', this.currentlyShownConfig());
+      console.log('config state changed', this._currentlyShownConfig());
     });
 
     effect(() => {
@@ -124,27 +125,22 @@ export class ConfigService {
   }
 
   updateCurrentlyShownConfig(config: Config) {
-    if (isEqual(config, this.currentlyShownConfig())) {
-      // NOTE(jwetzell): no update
-      return;
-    }
-    this.currentlyShownConfig.set(cloneDeep(config));
+    this._currentlyShownConfig.set(cloneDeep(config));
   }
 
   updateModules(modules: ModuleConfig[]) {
-    const currentConfig = this.currentlyShownConfig();
-    if (!currentConfig) {
+    var newConfig = cloneDeep(this._currentlyShownConfig());
+    if (!newConfig) {
       console.error('No currently shown config to update modules on');
       return;
     }
+    newConfig.modules = cloneDeep(modules);
 
-    currentConfig.modules = cloneDeep(modules);
-
-    this.updateCurrentlyShownConfig(currentConfig);
+    this.updateCurrentlyShownConfig(newConfig);
   }
 
   updateRoutes(routes: RouteConfig[]) {
-    const currentConfig = this.currentlyShownConfig();
+    const currentConfig = this._currentlyShownConfig();
     if (!currentConfig) {
       console.error('No currently shown config to update routes on');
       return;

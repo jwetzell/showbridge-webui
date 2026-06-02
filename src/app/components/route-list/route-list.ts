@@ -14,9 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { cloneDeep } from 'lodash-es';
 import { RouteConfig } from '../../models/config';
+import { ListsService } from '../../services/lists';
 import { SchemaService } from '../../services/schema';
 import { RouteComponent } from '../route/route';
-import { ListsService } from '../../services/lists';
 
 @Component({
   selector: 'app-route-list',
@@ -123,7 +123,6 @@ export class RouteListComponent {
   }
 
   drop(event: CdkDragDrop<RouteConfig[] | undefined>) {
-    console.log('Drop event:', event);
     if (event.previousContainer === event.container) {
       const currentRoutes = this.routes();
       if (currentRoutes === undefined) {
