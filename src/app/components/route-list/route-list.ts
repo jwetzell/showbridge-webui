@@ -6,7 +6,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -31,6 +31,7 @@ import { RouteComponent } from '../route/route';
     A11yModule,
   ],
   templateUrl: './route-list.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './route-list.css',
 })
 export class RouteListComponent {

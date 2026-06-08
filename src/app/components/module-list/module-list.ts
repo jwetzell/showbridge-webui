@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -23,6 +23,7 @@ import { ModuleComponent } from '../module/module';
     CdkDropList,
   ],
   templateUrl: './module-list.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './module-list.css',
 })
 export class ModuleListComponent {

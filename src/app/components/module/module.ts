@@ -1,6 +1,14 @@
 import { CdkDragHandle, CdkDragPlaceholder, CdkDragPreview } from '@angular/cdk/drag-drop';
 import { JsonPipe } from '@angular/common';
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,6 +37,7 @@ import { ParamsFormComponent } from '../params-form/params-form';
     CdkDragPlaceholder,
   ],
   templateUrl: './module.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './module.css',
 })
 export class ModuleComponent {

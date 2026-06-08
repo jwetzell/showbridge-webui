@@ -1,5 +1,5 @@
 import { CdkDragHandle, CdkDragPlaceholder, CdkDragPreview } from '@angular/cdk/drag-drop';
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ProcessorConfig } from '../../models/config';
@@ -17,6 +17,7 @@ import { ParamsFormComponent } from '../params-form/params-form';
     CdkDragPlaceholder,
   ],
   templateUrl: './processor.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './processor.css',
 })
 export class ProcessorComponent {

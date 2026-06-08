@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ParamInfo } from '../../models/form';
@@ -12,6 +12,7 @@ import { parseStringToArray } from '../../utils/params';
   templateUrl: './array-form.html',
   styleUrl: './array-form.css',
   imports: [MatIconModule, FormsModule, CdkDrag, CdkDropList],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class ArrayFormComponent implements OnInit {

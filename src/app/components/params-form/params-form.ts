@@ -1,5 +1,12 @@
 import { JsonPipe } from '@angular/common';
-import { Component, effect, input, OnDestroy, output } from '@angular/core';
+import {
+  Component,
+  effect,
+  input,
+  OnDestroy,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,6 +33,7 @@ import { ArrayFormComponent } from '../array-form/array-form';
     ArrayFormComponent,
     MatTabsModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class ParamsFormComponent implements OnDestroy {

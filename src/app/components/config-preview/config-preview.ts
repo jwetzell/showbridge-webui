@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -9,6 +9,7 @@ import { Config } from '../../models/config';
   selector: 'app-config-preview',
   imports: [MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './config-preview.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './config-preview.css',
 })
 export class ConfigPreviewComponent {
