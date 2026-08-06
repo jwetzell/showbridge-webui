@@ -53,7 +53,7 @@
     "jsdom": "29.1.1",
     "playwright-ng-schematics": "21.1.0",
     "postcss": "8.5.3",
-    "prettier": "3.8.3",
+    "prettier": "3.9.6",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "vitest": "4.1.8"
