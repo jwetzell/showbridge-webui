@@ -51,7 +51,7 @@
     "@types/js-yaml": "4.0.9",
     "@types/lodash-es": "4.17.12",
     "jsdom": "29.1.1",
-    "playwright-ng-schematics": "21.1.0",
+    "playwright-ng-schematics": "22.0.3",
     "postcss": "8.5.3",
     "prettier": "3.9.6",
     "tailwindcss": "4.3.3",
