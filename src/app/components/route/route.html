@@ -81,7 +81,7 @@
             (cdkDropListDropped)="drop($event)"
             [cdkDropListData]="route()?.processors"
           >
-            @for (processor of processors(); track processor; let i = $index) {
+            @for (processor of processors(); track $index + processor.type; let i = $index) {
               <div cdkDrag>
                 <app-processor
                   [path]="path() + '/processors/' + i"
@@ -237,7 +237,7 @@
               (cdkDropListDropped)="drop($event)"
               [cdkDropListData]="route()?.processors"
             >
-              @for (processor of processors(); track processor; let i = $index) {
+              @for (processor of processors(); track $index + processor.type; let i = $index) {
                 <div cdkDrag>
                   <app-processor
                     [path]="path() + '/processors/' + i"
