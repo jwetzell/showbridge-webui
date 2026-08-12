@@ -1,6 +1,7 @@
 import {
   CdkDrag,
   CdkDragDrop,
+  CdkDragHandle,
   CdkDragPlaceholder,
   CdkDragPreview,
   CdkDropList,
@@ -42,6 +43,7 @@ import { ProcessorComponent } from '../processor/processor';
     ProcessorComponent,
     MatTooltipModule,
     CdkDrag,
+    CdkDragHandle,
     CdkDropList,
     CdkDragPreview,
     CdkDragPlaceholder,
