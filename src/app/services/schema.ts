@@ -139,12 +139,16 @@ export class SchemaService {
   }
 
   getSkeletonForRoute(): RouteConfig {
-    const template: RouteConfig = {};
+    const template: RouteConfig = {
+      id: crypto.randomUUID(),
+      processors: [],
+    };
     return template;
   }
 
   getSkeletonForProcessor(processorType: string): ProcessorConfig {
     const template: ProcessorConfig = {
+      id: crypto.randomUUID(),
       type: processorType,
     };
     const itemInfo = this.processorTypes.find((itemInfo) => itemInfo.type === processorType);

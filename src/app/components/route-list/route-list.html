@@ -17,7 +17,7 @@
     (cdkDropListDropped)="drop($event)"
     [cdkDropListData]="routes()"
   >
-    @for (route of routes(); track $index + (route.input || ''); let i = $index) {
+    @for (route of routes(); track route.id; let i = $index) {
       <div class="m-2" cdkDrag>
         <app-route
           [id]="listService.pathToId(`routes/${i}`)"

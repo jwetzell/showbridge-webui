@@ -22,11 +22,13 @@ export type ModuleConfig = {
 };
 
 export type RouteConfig = {
+  id: string;
   input?: string;
   processors?: ProcessorConfig[];
 };
 
 export type ProcessorConfig = {
+  id: string;
   type: string;
   params?: Record<string, any>;
 };
